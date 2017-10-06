@@ -419,6 +419,7 @@ namespace Codeplex.Dashboarding
 
                 pf.Segments.Add(new LineSegment { Point = new Point(i + 1, y) });
                 idx++;
+                if (idx >= normalised.Count) break;
             }
 
             pf.Segments.Add(new LineSegment { Point = new Point(cw, ch) });
