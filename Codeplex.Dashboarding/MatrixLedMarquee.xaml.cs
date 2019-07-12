@@ -123,13 +123,13 @@ namespace Codeplex.Dashboarding
         public MatrixLedMarquee()
         {
             InitializeComponent();
-            this.timer.Tick += new EventHandler(this.TimerCompleted);
+            timer.Tick += new EventHandler(TimerCompleted);
 
-            this.TimerDuration = new Duration(new TimeSpan(0, 0, 1));
-            this.LedOffColor = Color.FromArgb(0x22, 0xdd, 0x00, 0x00);
-            this.LedOnColor = Color.FromArgb(0xFF, 0xdd, 0x00, 0x00);
+            TimerDuration = new Duration(new TimeSpan(0, 0, 1));
+            LedOffColor = Color.FromArgb(0x22, 0xdd, 0x00, 0x00);
+            LedOnColor = Color.FromArgb(0xFF, 0xdd, 0x00, 0x00);
 
-            Loaded += new RoutedEventHandler(this.MatrixLedMarquee_Loaded);
+            Loaded += new RoutedEventHandler(MatrixLedMarquee_Loaded);
         }
 
         #endregion Constructors
@@ -190,8 +190,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOffColor
         {
-            get { return (Color)GetValue(LedOffColorProperty); }
-            set { SetValue(LedOffColorProperty, value); }
+            get => (Color)GetValue(LedOffColorProperty);
+            set => SetValue(LedOffColorProperty, value);
         }
 
         /// <summary>
@@ -200,8 +200,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOnColor
         {
-            get { return (Color)GetValue(LedOnColorProperty); }
-            set { SetValue(LedOnColorProperty, value); }
+            get => (Color)GetValue(LedOnColorProperty);
+            set => SetValue(LedOnColorProperty, value);
         }
 
         /// <summary>
@@ -209,8 +209,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public MarqueeMode Mode
         {
-            get { return (MarqueeMode)GetValue(MarqueeModeProperty); }
-            set { SetValue(MarqueeModeProperty, value); }
+            get => (MarqueeMode)GetValue(MarqueeModeProperty);
+            set => SetValue(MarqueeModeProperty, value);
         }
 
         /// <summary>
@@ -219,8 +219,8 @@ namespace Codeplex.Dashboarding
         /// <value>The panels.</value>
         public int Panels
         {
-            get { return (int)GetValue(PanelsProperty); }
-            set { SetValue(PanelsProperty, value); }
+            get => (int)GetValue(PanelsProperty);
+            set => SetValue(PanelsProperty, value);
         }
 
         /// <summary>
@@ -233,8 +233,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         /// <summary>
@@ -242,8 +242,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public TextAlignment TextAlignment
         {
-            get { return (TextAlignment)GetValue(TextAlignProperty); }
-            set { SetValue(TextAlignProperty, value); }
+            get => (TextAlignment)GetValue(TextAlignProperty);
+            set => SetValue(TextAlignProperty, value);
         }
 
         /// <summary>
@@ -251,8 +251,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public Duration TimerDuration
         {
-            get { return (Duration)GetValue(TimerDurationProperty); }
-            set { SetValue(TimerDurationProperty, value); }
+            get => (Duration)GetValue(TimerDurationProperty);
+            set => SetValue(TimerDurationProperty, value);
         }
 
         #endregion Properties
@@ -266,9 +266,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedMarquee instance = dependancy as MatrixLedMarquee;
-
-            if (instance != null)
+            if (dependancy is MatrixLedMarquee instance)
             {
                 if (instance.LedOnColor != null && instance.Isloaded)
                 {
@@ -284,9 +282,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ModePropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedMarquee instance = dependancy as MatrixLedMarquee;
-
-            if (instance != null && instance.Text != null && instance.Isloaded)
+            if (dependancy is MatrixLedMarquee instance && instance.Text != null && instance.Isloaded)
             {
                 instance.UpdateText();
             }
@@ -299,9 +295,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void PanelsPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedMarquee instance = dependancy as MatrixLedMarquee;
-
-            if (instance != null && instance.Isloaded)
+            if (dependancy is MatrixLedMarquee instance && instance.Isloaded)
             {
                 instance.UpdatePanels();
             }
@@ -314,9 +308,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void TextAlignPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedMarquee instance = dependancy as MatrixLedMarquee;
-
-            if (instance != null && instance.Isloaded)
+            if (dependancy is MatrixLedMarquee instance && instance.Isloaded)
             {
                 if (instance.Text != null)
                 {
@@ -332,9 +324,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void TextPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedMarquee instance = dependancy as MatrixLedMarquee;
-
-            if (instance != null && instance.Isloaded)
+            if (dependancy is MatrixLedMarquee instance && instance.Isloaded)
             {
                 instance.UpdateText();
             }
@@ -347,8 +337,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void TimerDurationPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedMarquee instance = dependancy as MatrixLedMarquee;
-            if (instance != null)
+            if (dependancy is MatrixLedMarquee instance)
             {
                 instance.timer.Interval = instance.TimerDuration.TimeSpan;
             }
@@ -360,8 +349,8 @@ namespace Codeplex.Dashboarding
         /// <returns>The text aligned center in a string </returns>
         private string AlignTextCenter()
         {
-            string start = String.Empty.PadLeft(this.characters.Count) + this.Text + String.Empty.PadRight(this.characters.Count);
-            return start.Substring((start.Length - this.characters.Count) / 2, this.characters.Count);
+            var start = string.Empty.PadLeft(characters.Count) + Text + string.Empty.PadRight(characters.Count);
+            return start.Substring((start.Length - characters.Count) / 2, characters.Count);
         }
 
         /// <summary>
@@ -370,14 +359,14 @@ namespace Codeplex.Dashboarding
         /// <returns>A justified string</returns>
         private string AlignTextLeft()
         {
-            string formatted = String.Empty;
-            if (this.Text.Length > this.characters.Count)
+            var formatted = string.Empty;
+            if (Text.Length > characters.Count)
             {
-                formatted = this.Text.Substring(0, this.characters.Count);
+                formatted = Text.Substring(0, characters.Count);
             }
             else
             {
-                formatted = this.Text.PadRight(this.characters.Count);
+                formatted = Text.PadRight(characters.Count);
             }
 
             return formatted;
@@ -390,14 +379,14 @@ namespace Codeplex.Dashboarding
         /// <returns>A justified string</returns>
         private string AlignTextRight()
         {
-            string formatted = String.Empty;
-            if (this.Text.Length > this.characters.Count)
+            var formatted = string.Empty;
+            if (Text.Length > characters.Count)
             {
-                formatted = this.Text.Substring(this.Text.Length - this.characters.Count);
+                formatted = Text.Substring(Text.Length - characters.Count);
             }
             else
             {
-                formatted = this.Text.PadLeft(this.characters.Count);
+                formatted = Text.PadLeft(characters.Count);
             }
 
             return formatted;
@@ -408,14 +397,14 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void AnimanteNonMotionless()
         {
-            MatrixLedCharacter first = this.characters[this.characters.Count - 1];
-            if (!this.textExists)
+            var first = characters[characters.Count - 1];
+            if (!textExists)
             {
                 first.ScrollOne(null, new MatrixScrollEventArgs(new List<bool> { false, false, false, false, false, false }));
             }
             else
             {
-                first.ScrollOne(null, this.GetNextVerticalStrip());
+                first.ScrollOne(null, GetNextVerticalStrip());
             }
         }
 
@@ -426,9 +415,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void Animate()
         {
-            if (this.Mode != MarqueeMode.Motionless)
+            if (Mode != MarqueeMode.Motionless)
             {
-                this.AnimanteNonMotionless();
+                AnimanteNonMotionless();
             }
         }
 
@@ -439,9 +428,9 @@ namespace Codeplex.Dashboarding
         /// <returns>a MatrixScrollEventArgs representing the next column of leds to scroll into the marquee</returns>
         private MatrixScrollEventArgs GetNextVerticalStrip()
         {
-            byte b = this.ledStates[this.offset];
-            MatrixScrollEventArgs args = new MatrixScrollEventArgs(new List<bool> { (b & 0x40) != 0, (b & 0x20) != 0, (b & 0x10) != 0, (b & 0x08) != 0, (b & 0x04) != 0, (b & 0x02) != 0, (b & 0x01) != 0 });
-            this.RackCharacter();
+            var b = ledStates[offset];
+            var args = new MatrixScrollEventArgs(new List<bool> { (b & 0x40) != 0, (b & 0x20) != 0, (b & 0x10) != 0, (b & 0x08) != 0, (b & 0x04) != 0, (b & 0x02) != 0, (b & 0x01) != 0 });
+            RackCharacter();
             return args;
         }
 
@@ -450,16 +439,16 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void InitializeAnimatedText()
         {
-            this.offset = 0;
-            this.textOffset = 0;
-            if (!String.IsNullOrEmpty(this.Text))
+            offset = 0;
+            textOffset = 0;
+            if (!string.IsNullOrEmpty(Text))
             {
-                this.ledStates = MatrixLedCharacterDefinitions.GetDefinition(String.Empty + this.Text[this.textOffset]);
-                this.textExists = true;
+                ledStates = MatrixLedCharacterDefinitions.GetDefinition(string.Empty + Text[textOffset]);
+                textExists = true;
             }
             else
             {
-                this.textExists = false;
+                textExists = false;
             }
         }
 
@@ -468,21 +457,21 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void InitializeMotionlessText()
         {
-            string formatted = String.Empty.PadRight(this.characters.Count());
+            var formatted = string.Empty.PadRight(characters.Count());
             if (TextAlignment == TextAlignment.Left)
             {
-                formatted = this.AlignTextLeft();
+                formatted = AlignTextLeft();
             }
             else if (TextAlignment == TextAlignment.Right)
             {
-                formatted = this.AlignTextRight();
+                formatted = AlignTextRight();
             }
             else if (TextAlignment == TextAlignment.Center)
             {
-                formatted = this.AlignTextCenter();
+                formatted = AlignTextCenter();
             }
 
-            this.SetAlignedText(formatted);
+            SetAlignedText(formatted);
         }
 
         /// <summary>
@@ -490,9 +479,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void ManifestChanges()
         {
-            this.UpdatePanels();
-            this.UpdateText();
-            this.UpdateLedsFromState();
+            UpdatePanels();
+            UpdateText();
+            UpdateLedsFromState();
         }
 
         /// <summary>
@@ -502,10 +491,10 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void MatrixLedMarquee_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ManifestChanges();
-            this.Isloaded = true;
-            this.timer.Interval = this.TimerDuration.TimeSpan;
-            this.timer.Start();
+            ManifestChanges();
+            Isloaded = true;
+            timer.Interval = TimerDuration.TimeSpan;
+            timer.Start();
         }
 
         /// <summary>
@@ -513,9 +502,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void OnMarqueeFinished()
         {
-            if (this.MarqueeFinished != null)
+            if (MarqueeFinished != null)
             {
-                this.MarqueeFinished(this, EventArgs.Empty);
+                MarqueeFinished(this, EventArgs.Empty);
             }
         }
 
@@ -530,26 +519,26 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void RackCharacter()
         {
-            this.offset += 1;
-            if (this.offset >= this.ledStates.Length)
+            offset += 1;
+            if (offset >= ledStates.Length)
             {
-                this.offset = 0;
-                this.textOffset += 1;
-                if (this.textOffset < this.Text.Length)
+                offset = 0;
+                textOffset += 1;
+                if (textOffset < Text.Length)
                 {
-                    this.ledStates = MatrixLedCharacterDefinitions.GetDefinition(String.Empty + this.Text[this.textOffset]);
+                    ledStates = MatrixLedCharacterDefinitions.GetDefinition(string.Empty + Text[textOffset]);
                 }
                 else
                 {
-                    if (this.Mode == MarqueeMode.Continuous)
+                    if (Mode == MarqueeMode.Continuous)
                     {
-                        this.textOffset = 0;
-                        this.ledStates = MatrixLedCharacterDefinitions.GetDefinition(String.Empty + this.Text[this.textOffset]);
+                        textOffset = 0;
+                        ledStates = MatrixLedCharacterDefinitions.GetDefinition(string.Empty + Text[textOffset]);
                     }
-                    else if (this.Mode == MarqueeMode.SingleShot)
+                    else if (Mode == MarqueeMode.SingleShot)
                     {
-                        this.textExists = false;
-                        this.OnMarqueeFinished();
+                        textExists = false;
+                        OnMarqueeFinished();
                     }
                 }
             }
@@ -561,11 +550,11 @@ namespace Codeplex.Dashboarding
         /// <param name="text">Sets the already aligned text into the marquee this is LTR</param>
         private void SetAlignedText(string text)
         {
-            for (int i = 0; i < this.characters.Count; i++)
+            for (var i = 0; i < characters.Count; i++)
             {
                 if (i < text.Length)
                 {
-                    this.characters[i].Text = String.Empty + text[i];
+                    characters[i].Text = string.Empty + text[i];
                 }
             }
         }
@@ -577,9 +566,9 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void TimerCompleted(object sender, EventArgs e)
         {
-            if (this.characters.Count > 0)
+            if (characters.Count > 0)
             {
-                this.Animate();
+                Animate();
             }
         }
 
@@ -588,10 +577,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateLedsFromState()
         {
-            foreach (MatrixLedCharacter ch in this.characters)
+            foreach (var ch in characters)
             {
-                ch.LedOffColor = this.LedOffColor;
-                ch.LedOnColor = this.LedOnColor;
+                ch.LedOffColor = LedOffColor;
+                ch.LedOnColor = LedOnColor;
             }
         }
 
@@ -601,19 +590,19 @@ namespace Codeplex.Dashboarding
         private void UpdatePanels()
         {
             _stackpanel.Children.Clear();
-            this.characters.Clear();
-            for (int i = 0; i < this.Panels; i++)
+            characters.Clear();
+            for (var i = 0; i < Panels; i++)
             {
-                MatrixLedCharacter ch = new MatrixLedCharacter();
+                var ch = new MatrixLedCharacter();
                 ch.DashboardLoaded = true;
-                ch.LedOnColor = this.LedOnColor;
-                ch.LedOffColor = this.LedOffColor;
-                this.characters.Add(ch);
+                ch.LedOnColor = LedOnColor;
+                ch.LedOffColor = LedOffColor;
+                characters.Add(ch);
                 _stackpanel.Children.Add(ch);
 
-                if (this.characters.Count > 1)
+                if (characters.Count > 1)
                 {
-                    MatrixLedCharacter prev = this.characters[i - 1];
+                    var prev = characters[i - 1];
                     ch.ScrollOut += new EventHandler<MatrixScrollEventArgs>(prev.ScrollOne);
                 }
             }
@@ -626,21 +615,21 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateText()
         {
-            if (this.Mode != MarqueeMode.SingleShot)
+            if (Mode != MarqueeMode.SingleShot)
             {
-                foreach (MatrixLedCharacter ch in this.characters)
+                foreach (var ch in characters)
                 {
                     ch.Clear();
                 }
             }
 
-            if (this.Mode == MarqueeMode.Motionless)
+            if (Mode == MarqueeMode.Motionless)
             {
-                this.InitializeMotionlessText();
+                InitializeMotionlessText();
             }
             else
             {
-                this.InitializeAnimatedText();
+                InitializeAnimatedText();
             }
         }
 

@@ -47,7 +47,7 @@ namespace Codeplex.Dashboarding
         /// <summary>
         /// Dependency property for the Mark
         /// </summary>
-        public static readonly DependencyProperty MarkProperty = DependencyProperty.Register("Mark", typeof(Scale.TickMark), typeof(BidirectionalDial), new PropertyMetadata(Codeplex.Dashboarding.Scale.TickMark.Line, MarkChanged));
+        public static readonly DependencyProperty MarkProperty = DependencyProperty.Register("Mark", typeof(Scale.TickMark), typeof(BidirectionalDial), new PropertyMetadata(Scale.TickMark.Line, MarkChanged));
 
         #endregion
 
@@ -63,7 +63,7 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPointCollection res = (ColorPointCollection)GetValue(FaceColorRangeProperty);
+                var res = (ColorPointCollection)GetValue(FaceColorRangeProperty);
                 return res;
             }
 
@@ -84,7 +84,7 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPointCollection res = (ColorPointCollection)GetValue(NeedleColorRangeProperty);
+                var res = (ColorPointCollection)GetValue(NeedleColorRangeProperty);
                 return res;
             }
 
@@ -101,8 +101,8 @@ namespace Codeplex.Dashboarding
         /// <value>The mark.</value>
         public Scale.TickMark Mark
         {
-            get { return (Scale.TickMark)GetValue(MarkProperty); }
-            set { SetValue(MarkProperty, value); }
+            get => (Scale.TickMark)GetValue(MarkProperty);
+            set => SetValue(MarkProperty, value);
         }
         #endregion
 
@@ -123,7 +123,7 @@ namespace Codeplex.Dashboarding
         protected override void ShowGrabHandle()
         {
             base.ShowGrabHandle();
-            this.GrabHighlight.Fill = new SolidColorBrush(Color.FromArgb(0x4c, 0xde, 0xf0, 0xf6));
+            GrabHighlight.Fill = new SolidColorBrush(Color.FromArgb(0x4c, 0xde, 0xf0, 0xf6));
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Codeplex.Dashboarding
         protected override void HideGrabHandle()
         {
             base.HideGrabHandle();
-            this.GrabHighlight.Fill = new SolidColorBrush(Colors.Transparent);
+            GrabHighlight.Fill = new SolidColorBrush(Colors.Transparent);
         }
 
         /// <summary>
@@ -143,8 +143,8 @@ namespace Codeplex.Dashboarding
         protected override void OnMouseGrabHandleMove(Point mouseDownPosition, Point currentPosition)
         {
             base.OnMouseGrabHandleMove(mouseDownPosition, currentPosition);
-            double cv = this.CalculateRotationAngle(currentPosition);
-            this.SetCurrentNormalizedValue(cv);
+            var cv = CalculateRotationAngle(currentPosition);
+            SetCurrentNormalizedValue(cv);
             Animate();
         }
 
@@ -190,7 +190,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void FaceColorRangeChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            BidirectionalDial instance = dependancy as BidirectionalDial;
+            var instance = dependancy as BidirectionalDial;
             instance.RegisterFaceColorRangeEvent();
             if (instance != null && instance.DashboardLoaded)
             {
@@ -206,7 +206,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void NeedleColorRangeChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            BidirectionalDial instance = dependancy as BidirectionalDial;
+            var instance = dependancy as BidirectionalDial;
             instance.RegisterNeedleColorRangeEvent();
             if (instance != null && instance.DashboardLoaded)
             {
@@ -222,8 +222,7 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void MarkChanged(DependencyObject dependency, DependencyPropertyChangedEventArgs e)
         {
-            BidirectionalDial instance = dependency as BidirectionalDial;
-            if (instance != null)
+            if (dependency is BidirectionalDial instance)
             {
                 instance.UpdateScaleMark();
                 instance.OnPropertyChanged("Mark");
@@ -235,8 +234,7 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateScaleMark()
         {
-            Scale s = ResourceRoot.FindName("_scale") as Scale;
-            if (s != null)
+            if (ResourceRoot.FindName("_scale") is Scale s)
             {
                 s.Mark = Mark;
             }
@@ -247,9 +245,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void RegisterFaceColorRangeEvent()
         {
-            if (this.FaceColorRange != null)
+            if (FaceColorRange != null)
             {
-                this.FaceColorRange.CollectionChanged += this.FaceColorRange_CollectionChanged;
+                FaceColorRange.CollectionChanged += FaceColorRange_CollectionChanged;
             }
         }
 
@@ -260,7 +258,7 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         private void FaceColorRange_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.UpdateFaceColor();
+            UpdateFaceColor();
         }
 
         /// <summary>
@@ -268,9 +266,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void RegisterNeedleColorRangeEvent()
         {
-            if (this.NeedleColorRange != null)
+            if (NeedleColorRange != null)
             {
-                this.NeedleColorRange.CollectionChanged += this.NeedleColorRange_CollectionChanged;
+                NeedleColorRange.CollectionChanged += NeedleColorRange_CollectionChanged;
             }
         }
 
@@ -281,7 +279,7 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Collections.Specialized.NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
         private void NeedleColorRange_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.UpdateNeedleColor();
+            UpdateNeedleColor();
         }
         #endregion
     }

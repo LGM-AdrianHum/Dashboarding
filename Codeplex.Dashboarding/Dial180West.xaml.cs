@@ -20,7 +20,6 @@ namespace Codeplex.Dashboarding
 {
     using System;
     using System.Windows;
-    using System.Windows.Controls;
 
     /// <summary>
     /// A 180 degree left facing dial where the pointer sweeps from North to south
@@ -41,10 +40,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         /// <summary>
         /// Determines the angle of the needle based on the mouse 
@@ -54,10 +50,10 @@ namespace Codeplex.Dashboarding
         /// <returns>The angle in degrees</returns>
         protected override double CalculateRotationAngle(Point currentPoint)
         {
-            double opposite = ((162 / 2) - (currentPoint.Y ));
-            double adjacent = (ActualWidth - currentPoint.X)-6 * 2;
-            double tan = opposite / adjacent;
-            double angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
+            var opposite = ((162 / 2) - (currentPoint.Y ));
+            var adjacent = (ActualWidth - currentPoint.X)-6 * 2;
+            var tan = opposite / adjacent;
+            var angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
 
             angleInDegrees = Math.Abs(angleInDegrees - 90);
 

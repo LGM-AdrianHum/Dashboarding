@@ -20,7 +20,6 @@ namespace Codeplex.Dashboarding
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
 
@@ -78,14 +77,14 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPoint res = (ColorPoint)GetValue(InRankColorProperty);
+                var res = (ColorPoint)GetValue(InRankColorProperty);
                 return res;
             }
 
             set
             {
                 SetValue(InRankColorProperty, value);
-                this.Animate();
+                Animate();
             }
         }
 
@@ -99,14 +98,14 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPoint res = (ColorPoint)GetValue(OutRankColorProperty);
+                var res = (ColorPoint)GetValue(OutRankColorProperty);
                 return res;
             }
 
             set
             {
                 SetValue(OutRankColorProperty, value);
-                this.Animate();
+                Animate();
             }
         }
 
@@ -115,10 +114,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -131,24 +127,24 @@ namespace Codeplex.Dashboarding
         {
             if (IsBidirectional)
             {
-                this._grabHandleCanvas.Visibility = Visibility.Visible;
-                this._grabHandle.Visibility = Visibility.Visible;
-                this.UpdateCurrentTextFormat();
+                _grabHandleCanvas.Visibility = Visibility.Visible;
+                _grabHandle.Visibility = Visibility.Visible;
+                UpdateCurrentTextFormat();
             }
             else
             {
-                this._grabHandleCanvas.Visibility = Visibility.Collapsed;
-                this._grabHandle.Visibility = Visibility.Collapsed;
-                this.UpdateTextFormat();
+                _grabHandleCanvas.Visibility = Visibility.Collapsed;
+                _grabHandle.Visibility = Visibility.Collapsed;
+                UpdateTextFormat();
             }
 
             if (!IsBidirectional || (IsBidirectional && !IsGrabbed))
             {
-                this.SetPointerByAnimationOverSetTime(NormalizedValue, AnimationDuration);
+                SetPointerByAnimationOverSetTime(NormalizedValue, AnimationDuration);
             }
             else
             {
-                this.SetPointerByAnimationOverSetTime(CurrentNormalizedValue, TimeSpan.Zero);
+                SetPointerByAnimationOverSetTime(CurrentNormalizedValue, TimeSpan.Zero);
             }
         }
 
@@ -169,12 +165,12 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateInRankColor();
-            this.UpdateOutRankColor();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateInRankColor();
+            UpdateOutRankColor();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -186,7 +182,7 @@ namespace Codeplex.Dashboarding
         {
             base.OnMouseGrabHandleMove(mouseDownPosition, currentPosition);
             MoveCurrentPositionByOffset(currentPosition.X - mouseDownPosition.X);
-            this.Animate();
+            Animate();
         }
 
         /// <summary>
@@ -258,8 +254,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void InRankColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            FiveStarRanking instance = dependancy as FiveStarRanking;
-            if (instance != null)
+            if (dependancy is FiveStarRanking instance)
             {
                 instance.UpdateInRankColor();
             }
@@ -272,8 +267,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void OutRankColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            FiveStarRanking instance = dependancy as FiveStarRanking;
-            if (instance != null)
+            if (dependancy is FiveStarRanking instance)
             {
                 instance.UpdateOutRankColor();
             }
@@ -288,8 +282,8 @@ namespace Codeplex.Dashboarding
         /// <param name="duration">The duration.</param>
         private void SetPointerByAnimationOverSetTime(double normalizedValue, TimeSpan duration)
         {
-            double pos = normalizedValue * 100;
-            PointAnimation pa = GetChildPointAnimation(AnimateIndicatorStoryboard, "_animOrigin");
+            var pos = normalizedValue * 100;
+            var pa = GetChildPointAnimation(AnimateIndicatorStoryboard, "_animOrigin");
             pa.To = new Point(pos, 0);
             pa.Duration = new Duration(duration);
             pa = GetChildPointAnimation(AnimateIndicatorStoryboard, "_animTopLeft");
@@ -300,7 +294,7 @@ namespace Codeplex.Dashboarding
             pa.Duration = new Duration(duration);
 
             Start(AnimateIndicatorStoryboard);
-            SplineDoubleKeyFrame s = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, pos);
+            var s = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, pos);
             s.KeyTime = KeyTime.FromTimeSpan(duration);
             Start(AnimateGrabHandleStoryboard);
         }
@@ -310,18 +304,18 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateInRankColor()
         {
-            if (this.InRankColor != null)
+            if (InRankColor != null)
             {
-                this._highEnabled0.Color = this.InRankColor.HiColor;
-                this._highEnabled1.Color = this.InRankColor.HiColor;
-                this._highEnabled2.Color = this.InRankColor.HiColor;
-                this._highEnabled3.Color = this.InRankColor.HiColor;
-                this._highEnabled4.Color = this.InRankColor.HiColor;
-                this._lowEnabled0.Color = this.InRankColor.LowColor;
-                this._lowEnabled1.Color = this.InRankColor.LowColor;
-                this._lowEnabled2.Color = this.InRankColor.LowColor;
-                this._lowEnabled3.Color = this.InRankColor.LowColor;
-                this._lowEnabled4.Color = this.InRankColor.LowColor;
+                _highEnabled0.Color = InRankColor.HiColor;
+                _highEnabled1.Color = InRankColor.HiColor;
+                _highEnabled2.Color = InRankColor.HiColor;
+                _highEnabled3.Color = InRankColor.HiColor;
+                _highEnabled4.Color = InRankColor.HiColor;
+                _lowEnabled0.Color = InRankColor.LowColor;
+                _lowEnabled1.Color = InRankColor.LowColor;
+                _lowEnabled2.Color = InRankColor.LowColor;
+                _lowEnabled3.Color = InRankColor.LowColor;
+                _lowEnabled4.Color = InRankColor.LowColor;
             }
         }
 
@@ -330,18 +324,18 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateOutRankColor()
         {
-            if (this.OutRankColor != null)
+            if (OutRankColor != null)
             {
-                this._highDisabled0.Color = this.OutRankColor.HiColor;
-                this._highDisabled1.Color = this.OutRankColor.HiColor;
-                this._highDisabled2.Color = this.OutRankColor.HiColor;
-                this._highDisabled3.Color = this.OutRankColor.HiColor;
-                this._highDisabled4.Color = this.OutRankColor.HiColor;
-                this._lowDisabled0.Color = this.OutRankColor.LowColor;
-                this._lowDisabled1.Color = this.OutRankColor.LowColor;
-                this._lowDisabled2.Color = this.OutRankColor.LowColor;
-                this._lowDisabled3.Color = this.OutRankColor.LowColor;
-                this._lowDisabled4.Color = this.OutRankColor.LowColor;
+                _highDisabled0.Color = OutRankColor.HiColor;
+                _highDisabled1.Color = OutRankColor.HiColor;
+                _highDisabled2.Color = OutRankColor.HiColor;
+                _highDisabled3.Color = OutRankColor.HiColor;
+                _highDisabled4.Color = OutRankColor.HiColor;
+                _lowDisabled0.Color = OutRankColor.LowColor;
+                _lowDisabled1.Color = OutRankColor.LowColor;
+                _lowDisabled2.Color = OutRankColor.LowColor;
+                _lowDisabled3.Color = OutRankColor.LowColor;
+                _lowDisabled4.Color = OutRankColor.LowColor;
             }
         }
 

@@ -19,12 +19,10 @@
 
 namespace Codeplex.Dashboarding
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
 
@@ -122,10 +120,10 @@ namespace Codeplex.Dashboarding
         {
             InitializeComponent();
 
-            Loaded += new RoutedEventHandler(this.SixteenSegmentLED_Loaded);
+            Loaded += new RoutedEventHandler(SixteenSegmentLED_Loaded);
 
-            this.LedOffColor = Color.FromArgb(0x50, 0x5e, 0x57, 0x57);
-            this.LedOnColor = Color.FromArgb(0xFF, 0x00, 0x99, 0x00);
+            LedOffColor = Color.FromArgb(0x50, 0x5e, 0x57, 0x57);
+            LedOnColor = Color.FromArgb(0xFF, 0x00, 0x99, 0x00);
         }
 
         #endregion Constructors
@@ -227,8 +225,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public string DisplayCharacter
         {
-            get { return (string)GetValue(DisplayCharacterProperty); }
-            set { SetValue(DisplayCharacterProperty, value); }
+            get => (string)GetValue(DisplayCharacterProperty);
+            set => SetValue(DisplayCharacterProperty, value);
         }
 
         /// <summary>
@@ -237,8 +235,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOffColor
         {
-            get { return (Color)GetValue(LedOffColorProperty); }
-            set { SetValue(LedOffColorProperty, value); }
+            get => (Color)GetValue(LedOffColorProperty);
+            set => SetValue(LedOffColorProperty, value);
         }
 
         /// <summary>
@@ -247,8 +245,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOnColor
         {
-            get { return (Color)GetValue(LedOnColorProperty); }
-            set { SetValue(LedOnColorProperty, value); }
+            get => (Color)GetValue(LedOnColorProperty);
+            set => SetValue(LedOnColorProperty, value);
         }
 
         /// <summary>
@@ -256,10 +254,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -273,9 +268,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void ColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            SixteenSegmentLED instance = dependancy as SixteenSegmentLED;
-
-            if (instance != null)
+            if (dependancy is SixteenSegmentLED instance)
             {
                 instance.Animate();
             }
@@ -288,8 +281,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void DisplayCharacterPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            SixteenSegmentLED instance = dependancy as SixteenSegmentLED;
-            if (instance != null)
+            if (dependancy is SixteenSegmentLED instance)
             {
                 instance.Animate();
             }
@@ -300,8 +292,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void Animate()
         {
-            this.SetAllLedsOff();
-            this.SetRequiresLedsON();
+            SetAllLedsOff();
+            SetRequiresLedsON();
         }
 
         /// <summary>
@@ -309,9 +301,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void SetAllLedsOff()
         {
-            foreach (Path path in this.leds.Values)
+            foreach (var path in leds.Values)
             {
-                path.Fill = new SolidColorBrush(this.LedOffColor);
+                path.Fill = new SolidColorBrush(LedOffColor);
             }
         }
 
@@ -320,22 +312,22 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void SetRequiresLedsON()
         {
-            if (this.leds.Count == 0 || String.IsNullOrEmpty(this.DisplayCharacter) || this.DisplayCharacter == " ")
+            if (this.leds.Count == 0 || string.IsNullOrEmpty(DisplayCharacter) || DisplayCharacter == " ")
             {
                 return;
             }
 
-            if (this.DisplayCharacter.Length > 1)
+            if (DisplayCharacter.Length > 1)
             {
-                this.ShowError();
+                ShowError();
             }
 
-            if (characterLeds.ContainsKey(this.DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)))
+            if (characterLeds.ContainsKey(DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)))
             {
-                var leds = characterLeds[this.DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)];
-                foreach (Leds led in leds)
+                var leds = characterLeds[DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)];
+                foreach (var led in leds)
                 {
-                    this.leds[led].Fill = new SolidColorBrush(this.LedOnColor);
+                    this.leds[led].Fill = new SolidColorBrush(LedOnColor);
                 }
             }
         }
@@ -345,9 +337,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void ShowError()
         {
-            foreach (Path path in this.leds.Values)
+            foreach (var path in leds.Values)
             {
-                path.Fill = new SolidColorBrush(this.LedOnColor);
+                path.Fill = new SolidColorBrush(LedOnColor);
             }
         }
 
@@ -358,13 +350,13 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void SixteenSegmentLED_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!this.hasInitialized)
+            if (!hasInitialized)
             {
-                this.hasInitialized = true;
-                this.StoreLedInformation();
+                hasInitialized = true;
+                StoreLedInformation();
             }
 
-            this.Animate();
+            Animate();
         }
 
         /// <summary>
@@ -372,22 +364,22 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void StoreLedInformation()
         {
-            this.leds.Add(Leds.BDL, _bdl);
-            this.leds.Add(Leds.BDR, _bdr);
-            this.leds.Add(Leds.BHL, _bhl);
-            this.leds.Add(Leds.BHR, _bhr);
-            this.leds.Add(Leds.BVL, _bvl);
-            this.leds.Add(Leds.BVM, _bvm);
-            this.leds.Add(Leds.BVR, _bvr);
-            this.leds.Add(Leds.MHL, _mhl);
-            this.leds.Add(Leds.MHR, _mhr);
-            this.leds.Add(Leds.TDL, _tdl);
-            this.leds.Add(Leds.TDR, _tdr);
-            this.leds.Add(Leds.THL, _thl);
-            this.leds.Add(Leds.THR, _thr);
-            this.leds.Add(Leds.TVL, _tvl);
-            this.leds.Add(Leds.TVM, _tvm);
-            this.leds.Add(Leds.TVR, _tvr);
+            leds.Add(Leds.BDL, _bdl);
+            leds.Add(Leds.BDR, _bdr);
+            leds.Add(Leds.BHL, _bhl);
+            leds.Add(Leds.BHR, _bhr);
+            leds.Add(Leds.BVL, _bvl);
+            leds.Add(Leds.BVM, _bvm);
+            leds.Add(Leds.BVR, _bvr);
+            leds.Add(Leds.MHL, _mhl);
+            leds.Add(Leds.MHR, _mhr);
+            leds.Add(Leds.TDL, _tdl);
+            leds.Add(Leds.TDR, _tdr);
+            leds.Add(Leds.THL, _thl);
+            leds.Add(Leds.THR, _thr);
+            leds.Add(Leds.TVL, _tvl);
+            leds.Add(Leds.TVM, _tvm);
+            leds.Add(Leds.TVR, _tvr);
         }
 
         #endregion Methods

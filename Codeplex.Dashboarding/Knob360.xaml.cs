@@ -48,20 +48,14 @@ namespace Codeplex.Dashboarding
         /// <summary>
         /// Return the shape used to highlight the grab control
         /// </summary>
-        protected override Shape GrabHighlight
-        {
-            get { return _grabHighlight; }
-        }
+        protected override Shape GrabHighlight => _grabHighlight;
 
         /// <summary>
         /// Gets the resource root. This allow us to access the Storyboards in a Silverlight/WPf
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -72,18 +66,18 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void Animate()
         {
-            this.UpdateFaceColor();
-            this.UpdateNeedleColor();
+            UpdateFaceColor();
+            UpdateNeedleColor();
 
             _txt11.Text = FormattedValue;
 
             if (!IsBidirectional || (IsBidirectional && !IsGrabbed))
             {
-                this.SetPointerByAnimationOverSetTime(NormalizedValue, Value, AnimationDuration);
+                SetPointerByAnimationOverSetTime(NormalizedValue, Value, AnimationDuration);
             }
             else
             {
-                this.SetPointerByAnimationOverSetTime(CurrentNormalizedValue, CurrentValue, TimeSpan.Zero);
+                SetPointerByAnimationOverSetTime(CurrentNormalizedValue, CurrentValue, TimeSpan.Zero);
             }
         }
 
@@ -95,10 +89,10 @@ namespace Codeplex.Dashboarding
         /// <returns>The angle in degrees</returns>
         protected override double CalculateRotationAngle(Point currentPoint)
         {
-            double opposite = currentPoint.Y - (ActualHeight / 2);
-            double adjacent = currentPoint.X - (ActualWidth / 2);
-            double tan = opposite / adjacent;
-            double angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
+            var opposite = currentPoint.Y - (ActualHeight / 2);
+            var adjacent = currentPoint.X - (ActualWidth / 2);
+            var tan = opposite / adjacent;
+            var angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
 
             if (currentPoint.X >= (ActualWidth / 2) && currentPoint.Y <= (ActualHeight / 2))
             {
@@ -128,12 +122,12 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateFaceColor();
-            this.UpdateNeedleColor();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateFaceColor();
+            UpdateNeedleColor();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -160,11 +154,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateFaceColor()
         {
-            ColorPoint c = FaceColorRange.GetColor(Value);
+            var c = FaceColorRange.GetColor(Value);
             if (c != null)
             {
-                this._colourRangeStart.Color = c.HiColor;
-                this._colourRangeEnd.Color = c.LowColor;
+                _colourRangeStart.Color = c.HiColor;
+                _colourRangeEnd.Color = c.LowColor;
             }
         }
 
@@ -173,10 +167,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateNeedleColor()
         {
-            ColorPoint c = this.NeedleColorRange.GetColor(Value);
+            var c = NeedleColorRange.GetColor(Value);
             if (c != null)
             {
-                this._needle.Fill = new SolidColorBrush(c.HiColor);
+                _needle.Fill = new SolidColorBrush(c.HiColor);
             }
         }
 
@@ -185,10 +179,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextColor()
         {
-            for (int i = 0; i <= 10; i++)
+            for (var i = 0; i <= 10; i++)
             {
-                TextBlock tb = LayoutRoot.FindName("_txt" + i) as TextBlock;
-                if (tb != null)
+                if (LayoutRoot.FindName("_txt" + i) is TextBlock tb)
                 {
                     tb.Foreground = new SolidColorBrush(FaceTextColor);
                 }
@@ -205,9 +198,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateFontStyle()
         {
-            for (int i = 0; i <= 12; i++)
+            for (var i = 0; i <= 12; i++)
             {
-                TextBlock tb = ResourceRoot.FindName("_txt" + i) as TextBlock;
+                var tb = ResourceRoot.FindName("_txt" + i) as TextBlock;
                 CopyFontDetails(tb);
             }
         }
@@ -217,12 +210,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextFormat()
         {
-            for (int i = 0; i <= 10; i++)
+            for (var i = 0; i <= 10; i++)
             {
-                TextBlock tb = LayoutRoot.FindName("_txt" + i) as TextBlock;
-                if (tb != null && FaceTextFormat != null)
+                if (LayoutRoot.FindName("_txt" + i) is TextBlock tb && FaceTextFormat != null)
                 {
-                    tb.Text = String.Format(FaceTextFormat, RealMinimum + (i * ((RealMaximum - RealMinimum) / 10)));
+                    tb.Text = string.Format(FaceTextFormat, RealMinimum + (i * ((RealMaximum - RealMinimum) / 10)));
                 }
             }
 
@@ -237,10 +229,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextVisibility()
         {
-            for (int i = 0; i <= 10; i++)
+            for (var i = 0; i <= 10; i++)
             {
-                TextBlock tb = LayoutRoot.FindName("_txt" + i) as TextBlock;
-                if (tb != null)
+                if (LayoutRoot.FindName("_txt" + i) is TextBlock tb)
                 {
                     tb.Visibility = FaceTextVisibility;
                 }
@@ -262,13 +253,13 @@ namespace Codeplex.Dashboarding
         /// <param name="duration">The duration.</param>
         private void SetPointerByAnimationOverSetTime(double normalizedValue, double value, TimeSpan duration)
         {
-            this.UpdateTextFormat();
+            UpdateTextFormat();
 
-            SplineDoubleKeyFrame needle = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, (-150 + (300 * normalizedValue)) - 2);
+            var needle = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, (-150 + (300 * normalizedValue)) - 2);
             needle.KeyTime = KeyTime.FromTimeSpan(duration);
             Start(AnimateIndicatorStoryboard);
 
-            SplineDoubleKeyFrame handle = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, (300 * normalizedValue) - 10);
+            var handle = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, (300 * normalizedValue) - 10);
             handle.KeyTime = KeyTime.FromTimeSpan(duration);
             Start(AnimateGrabHandleStoryboard);
         }

@@ -136,10 +136,7 @@ namespace Codeplex.Dashboarding
         /// <summary>
         /// Gets the data structure containing the mapping from character to leds
         /// </summary>
-        public static Dictionary<string, byte[]> CharacterDefinitions
-        {
-            get { return characterDefinitions; }
-        }
+        public static Dictionary<string, byte[]> CharacterDefinitions => characterDefinitions;
 
         /// <summary>
         /// Retrieves the defintion for a character. unreconized characters are 

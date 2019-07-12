@@ -20,7 +20,6 @@ namespace Codeplex.Dashboarding
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
 
@@ -80,14 +79,14 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPoint res = (ColorPoint)GetValue(InProgressColorProperty);
+                var res = (ColorPoint)GetValue(InProgressColorProperty);
                 return res;
             }
 
             set
             {
                 SetValue(InProgressColorProperty, value);
-                this.Animate();
+                Animate();
             }
         }
 
@@ -100,14 +99,14 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPoint res = (ColorPoint)GetValue(OutOfProgressColorProperty);
+                var res = (ColorPoint)GetValue(OutOfProgressColorProperty);
                 return res;
             }
 
             set
             {
                 SetValue(OutOfProgressColorProperty, value);
-                this.Animate();
+                Animate();
             }
         }
 
@@ -117,8 +116,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color OutlineColor
         {
-            get { return (Color)GetValue(OutlineColorProperty); }
-            set { SetValue(OutlineColorProperty, value); }
+            get => (Color)GetValue(OutlineColorProperty);
+            set => SetValue(OutlineColorProperty, value);
         }
 
         /// <summary>
@@ -126,10 +125,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -143,24 +139,24 @@ namespace Codeplex.Dashboarding
         {
             if (IsBidirectional)
             {
-                this.UpdateCurrentTextFormat();
+                UpdateCurrentTextFormat();
                 _grabHandleCanvas.Visibility = Visibility.Visible;
                 _grabHandle.Visibility = Visibility.Visible;
             }
             else
             {
-                this.UpdateTextFormat();
+                UpdateTextFormat();
                 _grabHandleCanvas.Visibility = Visibility.Collapsed;
                 _grabHandle.Visibility = Visibility.Collapsed;
             }
 
             if (!IsBidirectional || (IsBidirectional && !IsGrabbed))
             {
-                this.SetPointerByAnimationOverSetTime(NormalizedValue, AnimationDuration);
+                SetPointerByAnimationOverSetTime(NormalizedValue, AnimationDuration);
             }
             else
             {
-                this.SetPointerByAnimationOverSetTime(CurrentNormalizedValue, TimeSpan.Zero);
+                SetPointerByAnimationOverSetTime(CurrentNormalizedValue, TimeSpan.Zero);
             }
         }
 
@@ -181,14 +177,14 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateColors();
-            this.UpdateCurrentTextFormat();
-            this.UpdateInProgressColor();
-            this.UpdateOutOfProgressColor();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateColors();
+            UpdateCurrentTextFormat();
+            UpdateInProgressColor();
+            UpdateOutOfProgressColor();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -200,7 +196,7 @@ namespace Codeplex.Dashboarding
         {
             base.OnMouseGrabHandleMove(mouseDownPosition, currentPosition);
             MoveCurrentPositionByOffset(currentPosition.X - mouseDownPosition.X);
-            this.Animate();
+            Animate();
         }
 
         /// <summary>
@@ -272,9 +268,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            ProgressBar instance = dependancy as ProgressBar;
-
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is ProgressBar instance && instance.DashboardLoaded)
             {
                 if (instance.OutlineColor != null)
                 {
@@ -290,8 +284,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void InProgressColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            ProgressBar instance = dependancy as ProgressBar;
-            if (instance != null)
+            if (dependancy is ProgressBar instance)
             {
                 instance.UpdateInProgressColor();
             }
@@ -304,8 +297,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void OutOfProgressColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            ProgressBar instance = dependancy as ProgressBar;
-            if (instance != null)
+            if (dependancy is ProgressBar instance)
             {
                 instance.UpdateOutOfProgressColor();
             }
@@ -320,8 +312,8 @@ namespace Codeplex.Dashboarding
         /// <param name="duration">The duration.</param>
         private void SetPointerByAnimationOverSetTime(double normalizedValue, TimeSpan duration)
         {
-            double pos = normalizedValue * 100;
-            PointAnimation pa = GetChildPointAnimation(AnimateIndicatorStoryboard, "_startPoint");
+            var pos = normalizedValue * 100;
+            var pa = GetChildPointAnimation(AnimateIndicatorStoryboard, "_startPoint");
             pa.To = new Point(pos, 0);
             pa.Duration = new Duration(duration);
             pa = GetChildPointAnimation(AnimateIndicatorStoryboard, "_topLeft");
@@ -332,7 +324,7 @@ namespace Codeplex.Dashboarding
             pa.Duration = new Duration(duration);
 
             Start(AnimateIndicatorStoryboard);
-            SplineDoubleKeyFrame s = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, pos - 10);
+            var s = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, pos - 10);
             s.KeyTime = KeyTime.FromTimeSpan(duration);
             Start(AnimateGrabHandleStoryboard);
         }
@@ -342,9 +334,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateColors()
         {
-            _grid.Stroke = new SolidColorBrush(this.OutlineColor);
-            _coloured.Stroke = new SolidColorBrush(this.OutlineColor);
-            _gray.Stroke = new SolidColorBrush(this.OutlineColor);
+            _grid.Stroke = new SolidColorBrush(OutlineColor);
+            _coloured.Stroke = new SolidColorBrush(OutlineColor);
+            _gray.Stroke = new SolidColorBrush(OutlineColor);
         }
 
         /// <summary>
@@ -352,11 +344,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateInProgressColor()
         {
-            if (this.InProgressColor != null)
+            if (InProgressColor != null)
             {
-                _highEnabled0.Color = this.InProgressColor.HiColor;
+                _highEnabled0.Color = InProgressColor.HiColor;
 
-                _lowEnabled0.Color = this.InProgressColor.LowColor;
+                _lowEnabled0.Color = InProgressColor.LowColor;
             }
         }
 
@@ -365,10 +357,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateOutOfProgressColor()
         {
-            if (this.OutOfProgressColor != null)
+            if (OutOfProgressColor != null)
             {
-                _highDisabled0.Color = this.OutOfProgressColor.HiColor;
-                _lowDisabled0.Color = this.OutOfProgressColor.LowColor;
+                _highDisabled0.Color = OutOfProgressColor.HiColor;
+                _lowDisabled0.Color = OutOfProgressColor.LowColor;
             }
         }
 

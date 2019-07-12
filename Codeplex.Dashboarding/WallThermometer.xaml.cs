@@ -17,18 +17,10 @@
 //-----------------------------------------------------------------------
 namespace Codeplex.Dashboarding
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Net;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Documents;
-    using System.Windows.Input;
     using System.Windows.Media;
-    using System.Windows.Media.Animation;
-    using System.Windows.Shapes;
 
     /// <summary>
     /// A wall thermometer encapsulates a plain thermometer and decorates it visually with a backing plate and
@@ -67,8 +59,8 @@ namespace Codeplex.Dashboarding
             ValueTextColor = Colors.Black;
             FaceTextColor = Colors.Black;
             _delegate.ValueTextColor = Colors.Black;
-            PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.OneOfMyPropertiesChanged);
-            _delegate.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.OneOfTheDelegatesPropertiesChanged);
+            PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(OneOfMyPropertiesChanged);
+            _delegate.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(OneOfTheDelegatesPropertiesChanged);
         }
 
         #endregion Constructors
@@ -85,7 +77,7 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                bool res = (bool)GetValue(IsBidirectionalProperty);
+                var res = (bool)GetValue(IsBidirectionalProperty);
                 return res;
             }
 
@@ -105,14 +97,11 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPointCollection res = (ColorPointCollection)GetValue(MercuryColorRangeProperty);
+                var res = (ColorPointCollection)GetValue(MercuryColorRangeProperty);
                 return res;
             }
 
-            set
-            {
-                SetValue(MercuryColorRangeProperty, value);
-            }
+            set => SetValue(MercuryColorRangeProperty, value);
         }
 
         /// <summary>
@@ -120,10 +109,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -145,10 +131,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateTextVisibility();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateFontStyle();
+            UpdateTextVisibility();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -158,10 +144,9 @@ namespace Codeplex.Dashboarding
         {
             _delegate.ValueTextColor = ValueTextColor;
 
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
-                TextBlock tb = LayoutRoot.FindName("_tl" + i) as TextBlock;
-                if (tb != null)
+                if (LayoutRoot.FindName("_tl" + i) is TextBlock tb)
                 {
                     tb.Foreground = new SolidColorBrush(FaceTextColor);
                 }
@@ -180,19 +165,18 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextFormat()
         {
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
-                TextBlock tb = LayoutRoot.FindName("_tl" + i) as TextBlock;
-                if (tb != null && FaceTextFormat != null)
+                if (LayoutRoot.FindName("_tl" + i) is TextBlock tb && FaceTextFormat != null)
                 {
-                    tb.Text = String.Format(FaceTextFormat, RealMinimum + ((i + 1) * ((RealMaximum - RealMinimum) / 10)));
+                    tb.Text = string.Format(FaceTextFormat, RealMinimum + ((i + 1) * ((RealMaximum - RealMinimum) / 10)));
                 }
 
                 tb = LayoutRoot.FindName("_tr" + i) as TextBlock;
                 
                 if (tb != null && FaceTextFormat != null)
                 {
-                    tb.Text = String.Format(FaceTextFormat, RealMinimum + ((i + 1) * ((RealMaximum - RealMinimum) / 10)));
+                    tb.Text = string.Format(FaceTextFormat, RealMinimum + ((i + 1) * ((RealMaximum - RealMinimum) / 10)));
                 }
             }
         }
@@ -202,9 +186,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateFontStyle()
         {
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
-                TextBlock tb = LayoutRoot.FindName("_tl" + i) as TextBlock;
+                var tb = LayoutRoot.FindName("_tl" + i) as TextBlock;
                 CopyFontDetails(tb);
                 tb = LayoutRoot.FindName("_tr" + i) as TextBlock;
                 CopyFontDetails(tb);
@@ -219,10 +203,9 @@ namespace Codeplex.Dashboarding
             _delegate.ValueTextVisibility = ValueTextVisibility;
             _wood.Height = (ValueTextVisibility == Visibility.Visible) ? 142 : 128;
 
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
-                TextBlock tb = LayoutRoot.FindName("_tl" + i) as TextBlock;
-                if (tb != null)
+                if (LayoutRoot.FindName("_tl" + i) is TextBlock tb)
                 {
                     tb.Visibility = FaceTextVisibility;
                 }
@@ -244,8 +227,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void IsBidirectionalPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            WallThermometer instance = dependancy as WallThermometer;
-            if (instance != null)
+            if (dependancy is WallThermometer instance)
             {
                 instance.IsBidirectional = (bool)args.NewValue;
             }
@@ -259,8 +241,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void MercuryColorRangeChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            WallThermometer instance = dependancy as WallThermometer;
-            if (instance != null)
+            if (dependancy is WallThermometer instance)
             {
                 instance._delegate.MercuryColorRange = instance.MercuryColorRange;
             }

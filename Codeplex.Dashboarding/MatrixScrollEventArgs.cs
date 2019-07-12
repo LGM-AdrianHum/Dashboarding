@@ -35,7 +35,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "To late to change")]
         public MatrixScrollEventArgs(List<bool> column)
         {
-            this.Column = column;
+            Column = column;
         }
 
         #endregion Constructors

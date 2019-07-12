@@ -20,7 +20,6 @@ namespace Codeplex.Dashboarding
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
 
@@ -74,10 +73,10 @@ namespace Codeplex.Dashboarding
         {
             InitializeComponent();
             RegisterGrabHandle(_slider);
-            this.DiamondColor = new Color { A = 0xFF, R = 0x85, G = 0x8a, B = 0xf9 };
-            this.LeftGradient = new Color { A = 0xFF, R = 0xA0, G = 0xF0, B = 0x35 };
-            this.RightGradient = new Color { A = 0xFF, R = 0xf9, G = 0x1d, B = 0x09 };
-            this.MidGradient = new Color { A = 0xFF, R = 0xe4, G = 0xf7, B = 0x39 };
+            DiamondColor = new Color { A = 0xFF, R = 0x85, G = 0x8a, B = 0xf9 };
+            LeftGradient = new Color { A = 0xFF, R = 0xA0, G = 0xF0, B = 0x35 };
+            RightGradient = new Color { A = 0xFF, R = 0xf9, G = 0x1d, B = 0x09 };
+            MidGradient = new Color { A = 0xFF, R = 0xe4, G = 0xf7, B = 0x39 };
         }
 
         #endregion Constructors
@@ -91,15 +90,9 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color DiamondColor
         {
-            get
-            {
-                return (Color)GetValue(DiamondColorProperty);
-            }
+            get => (Color)GetValue(DiamondColorProperty);
 
-            set
-            {
-                SetValue(DiamondColorProperty, value);
-            }
+            set => SetValue(DiamondColorProperty, value);
         }
 
         /// <summary>
@@ -108,15 +101,9 @@ namespace Codeplex.Dashboarding
         /// <value>The left gradient.</value>
         public Color LeftGradient
         {
-            get
-            {
-                return (Color)GetValue(LeftGradientProperty);
-            }
+            get => (Color)GetValue(LeftGradientProperty);
 
-            set
-            {
-                SetValue(LeftGradientProperty, value);
-            }
+            set => SetValue(LeftGradientProperty, value);
         }
 
         /// <summary>
@@ -125,15 +112,9 @@ namespace Codeplex.Dashboarding
         /// <value>The mid gradient.</value>
         public Color MidGradient
         {
-            get
-            {
-                return (Color)GetValue(MidGradientProperty);
-            }
+            get => (Color)GetValue(MidGradientProperty);
 
-            set
-            {
-                SetValue(MidGradientProperty, value);
-            }
+            set => SetValue(MidGradientProperty, value);
         }
 
         /// <summary>
@@ -142,15 +123,9 @@ namespace Codeplex.Dashboarding
         /// <value>The right gradient.</value>
         public Color RightGradient
         {
-            get
-            {
-                return (Color)GetValue(RightGradientProperty);
-            }
+            get => (Color)GetValue(RightGradientProperty);
 
-            set
-            {
-                SetValue(RightGradientProperty, value);
-            }
+            set => SetValue(RightGradientProperty, value);
         }
 
         /// <summary>
@@ -158,10 +133,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -174,13 +146,13 @@ namespace Codeplex.Dashboarding
         {
             if (!IsBidirectional || (IsBidirectional && !IsGrabbed))
             {
-                SplineDoubleKeyFrame f = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, NormalizedValue * 100);
+                var f = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, NormalizedValue * 100);
                 f.KeyTime = KeyTime.FromTimeSpan(AnimationDuration);
                 Start(AnimateIndicatorStoryboard);
             }
             else
             {
-                SplineDoubleKeyFrame f = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, CurrentNormalizedValue * 100);
+                var f = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, CurrentNormalizedValue * 100);
                 f.KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero);
                 Start(AnimateIndicatorStoryboard);
             }
@@ -203,13 +175,13 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateDiamondColor();
-            this.UpdateLeftGradient();
-            this.UpdateRightGradient();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateDiamondColor();
+            UpdateLeftGradient();
+            UpdateRightGradient();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -221,7 +193,7 @@ namespace Codeplex.Dashboarding
         {
             base.OnMouseGrabHandleMove(mouseDownPosition, currentPosition);
             MoveCurrentPositionByOffset(currentPosition.X - mouseDownPosition.X);
-            this.Animate();
+            Animate();
         }
 
         /// <summary>
@@ -269,8 +241,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void DiamondColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            DiamondSlider instance = dependancy as DiamondSlider;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is DiamondSlider instance && instance.DashboardLoaded)
             {
                 instance.UpdateDiamondColor();
             }
@@ -283,8 +254,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void LeftGradientPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            DiamondSlider instance = dependancy as DiamondSlider;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is DiamondSlider instance && instance.DashboardLoaded)
             {
                 if (instance._slider != null)
                 {
@@ -300,9 +270,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void MidGradientPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            DiamondSlider instance = dependancy as DiamondSlider;
-
-            if (instance != null)
+            if (dependancy is DiamondSlider instance)
             {
                 if (instance._slider != null)
                 {
@@ -318,8 +286,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void RightGradientPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            DiamondSlider instance = dependancy as DiamondSlider;
-            if (instance != null)
+            if (dependancy is DiamondSlider instance)
             {
                 if (instance._slider != null)
                 {
@@ -335,7 +302,7 @@ namespace Codeplex.Dashboarding
         {
             if (_slider != null)
             {
-                this._slider.Fill = new SolidColorBrush(this.DiamondColor);
+                _slider.Fill = new SolidColorBrush(DiamondColor);
             }
         }
 
@@ -344,9 +311,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateLeftGradient()
         {
-            if (this.LeftGradient != null)
+            if (LeftGradient != null)
             {
-                this._leftColor.Color = this.LeftGradient;
+                _leftColor.Color = LeftGradient;
             }
         }
 
@@ -355,9 +322,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateMidGradient()
         {
-            if (this.MidGradient != null)
+            if (MidGradient != null)
             {
-                this._midColor.Color = this.MidGradient;
+                _midColor.Color = MidGradient;
             }
         }
 
@@ -366,9 +333,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateRightGradient()
         {
-            if (this.RightGradient != null)
+            if (RightGradient != null)
             {
-                this._rightColor.Color = this.RightGradient;
+                _rightColor.Color = RightGradient;
             }
         }
 

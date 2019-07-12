@@ -17,17 +17,7 @@
 //-----------------------------------------------------------------------
 namespace Codeplex.Dashboarding
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Animation;
-    using System.Windows.Shapes;
 
     /// <summary>
     /// Represents a boolean value, either as a Tick or cross for true and 
@@ -54,10 +44,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 

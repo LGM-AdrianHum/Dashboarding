@@ -83,8 +83,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Hi", Justification = "Legacy support")]
         public Color HiColor
         {
-            get { return (Color)GetValue(HiColorProperty); }
-            set { SetValue(HiColorProperty, value); }
+            get => (Color)GetValue(HiColorProperty);
+            set => SetValue(HiColorProperty, value);
         }
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LowColor
         {
-            get { return (Color)GetValue(LowColorProperty); }
-            set { SetValue(LowColorProperty, value); }
+            get => (Color)GetValue(LowColorProperty);
+            set => SetValue(LowColorProperty, value);
         }
 
         /// <summary>
@@ -103,8 +103,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "Set and get value are on dependancy property, it's too late to change value")]
         public double Value
         {
-            get { return (double)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
+            get => (double)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
     #endregion
@@ -120,8 +120,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Hi", Justification = "Legacy support")]
         private static void HiColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            ColorPoint instance = dependancy as ColorPoint;
-            if (instance != null)
+            if (dependancy is ColorPoint instance)
             {
                 instance.OnPropertyChanged("HiColor");
             }
@@ -136,8 +135,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void LowColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            ColorPoint instance = dependancy as ColorPoint;
-            if (instance != null)
+            if (dependancy is ColorPoint instance)
             {
                 instance.OnPropertyChanged("LowColor");
             }
@@ -151,8 +149,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ValuePropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            ColorPoint instance = dependancy as ColorPoint;
-            if (instance != null)
+            if (dependancy is ColorPoint instance)
             {
                 instance.OnPropertyChanged("Value");
             }
@@ -166,9 +163,9 @@ namespace Codeplex.Dashboarding
         /// <param name="prop">Name of the changed property</param>
         private void OnPropertyChanged(string prop)
         {
-            if (this.PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(prop));
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
         }
 #endregion

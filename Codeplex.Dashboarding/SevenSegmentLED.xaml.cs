@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 using Codeplex.Dashboarding;
@@ -24,7 +14,7 @@ namespace WpfDashBoard
     public partial class SevenSegmentLED : PlatformIndependentDashboard
     {
         private bool hasInitialized;
-        private Dictionary<Leds, Path> leds = new Dictionary<Leds, Path>();
+        private readonly Dictionary<Leds, Path> leds = new Dictionary<Leds, Path>();
         internal enum Leds
         {
             TH,   //Top
@@ -51,14 +41,14 @@ namespace WpfDashBoard
         };
         private void StoreLedInformation()
         {
-            this.leds.Add(Leds.TH,  Path_6);
-            this.leds.Add(Leds.THL, Path_1);
-            this.leds.Add(Leds.THR, Path_5);
-            this.leds.Add(Leds.MH,  Path_0);
-            this.leds.Add(Leds.BHL, Path_2);
-            this.leds.Add(Leds.BHR, Path_4);
-            this.leds.Add(Leds.BH,  Path_3);
-            this.leds.Add(Leds.PO,  Path_8);
+            leds.Add(Leds.TH,  Path_6);
+            leds.Add(Leds.THL, Path_1);
+            leds.Add(Leds.THR, Path_5);
+            leds.Add(Leds.MH,  Path_0);
+            leds.Add(Leds.BHL, Path_2);
+            leds.Add(Leds.BHR, Path_4);
+            leds.Add(Leds.BH,  Path_3);
+            leds.Add(Leds.PO,  Path_8);
         }
 
         /// <summary>
@@ -67,20 +57,20 @@ namespace WpfDashBoard
         public SevenSegmentLED()
         {
             InitializeComponent();
-            Loaded += new RoutedEventHandler(this.SixteenSegmentLED_Loaded);
+            Loaded += new RoutedEventHandler(SixteenSegmentLED_Loaded);
 
-            this.LedOffColor = Color.FromArgb(0x50, 0x5e, 0x57, 0x57);
-            this.LedOnColor = Color.FromArgb(0xFF, 0x00, 0x99, 0x00);
+            LedOffColor = Color.FromArgb(0x50, 0x5e, 0x57, 0x57);
+            LedOnColor = Color.FromArgb(0xFF, 0x00, 0x99, 0x00);
         }
         private void SixteenSegmentLED_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!this.hasInitialized)
+            if (!hasInitialized)
             {
-                this.hasInitialized = true;
-                this.StoreLedInformation();
+                hasInitialized = true;
+                StoreLedInformation();
             }
 
-            this.Animate();
+            Animate();
         }
 
         /// <summary>
@@ -88,13 +78,9 @@ namespace WpfDashBoard
         /// </summary>
         public static readonly DependencyProperty DisplayCharacterProperty =
             DependencyProperty.Register("DisplayCharacter", typeof(string), typeof(SevenSegmentLED), new PropertyMetadata(new PropertyChangedCallback(DisplayCharacterPropertyChanged)));
-        private static void DisplayCharacterPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
-        {
-            SevenSegmentLED instance = dependancy as SevenSegmentLED;
-            if (instance != null)
-            {
-                instance.Animate();
-            }
+        private static void DisplayCharacterPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args) {
+            if (!(dependancy is SevenSegmentLED instance)) return;
+            instance.Animate();
         }
 
         /// <summary>
@@ -102,17 +88,12 @@ namespace WpfDashBoard
         /// </summary>
         public string DisplayCharacter
         {
-            get { return (string)GetValue(DisplayCharacterProperty); }
-            set { SetValue(DisplayCharacterProperty, value); }
+            get => (string)GetValue(DisplayCharacterProperty);
+            set => SetValue(DisplayCharacterProperty, value);
         }
-        private static void ColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
-        {
-            SevenSegmentLED instance = dependancy as SevenSegmentLED;
-
-            if (instance != null)
-            {
-                instance.Animate();
-            }
+        private static void ColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args) {
+            if (!(dependancy is SevenSegmentLED instance)) return;
+            instance.Animate();
         }
         #region decimal point 
 
@@ -127,8 +108,8 @@ namespace WpfDashBoard
         /// </summary>
         public bool PointOn
         {
-            get { return (bool)GetValue(PointOnProperty); }
-            set { SetValue(PointOnProperty, value); }
+            get => (bool)GetValue(PointOnProperty);
+            set => SetValue(PointOnProperty, value);
         }
 
         #endregion
@@ -144,8 +125,8 @@ namespace WpfDashBoard
         /// </summary>
         public Color LedOffColor
         {
-            get { return (Color)GetValue(LedOffColorProperty); }
-            set { SetValue(LedOffColorProperty, value); }
+            get => (Color)GetValue(LedOffColorProperty);
+            set => SetValue(LedOffColorProperty, value);
         }
 
         /// <summary>
@@ -159,67 +140,62 @@ namespace WpfDashBoard
         /// </summary>
         public Color LedOnColor
         {
-            get { return (Color)GetValue(LedOnColorProperty); }
-            set { SetValue(LedOnColorProperty, value); }
+            get => (Color)GetValue(LedOnColorProperty);
+            set => SetValue(LedOnColorProperty, value);
         }
 
         private void Animate()
         {
-            this.SetAllLedsOff();
-            this.SetRequiresLedsON();
+            SetAllLedsOff();
+            SetRequiresLedsOn();
         }
 
         private void SetAllLedsOff()
         {
-            foreach (Path path in this.leds.Values)
+            foreach (var path in leds.Values)
             {
-                path.Fill = new SolidColorBrush(this.LedOffColor);
+                path.Fill = new SolidColorBrush(LedOffColor);
             }
         }
 
-        private void SetRequiresLedsON()
+        private void SetRequiresLedsOn()
         {
-            if (this.leds.Count == 0 || String.IsNullOrEmpty(this.DisplayCharacter) || this.DisplayCharacter == " ")
+            if (leds.Count == 0 || string.IsNullOrEmpty(DisplayCharacter) || DisplayCharacter == " ")
             {
                 return;
             }
 
-            if (this.DisplayCharacter.Length > 1)
+            if (DisplayCharacter.Length > 1)
             {
-                this.ShowError();
+                ShowError();
             }
 
-            if (characterLeds.ContainsKey(this.DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)))
+            if (characterLeds.ContainsKey(DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)))
             {
-                var leds = characterLeds[this.DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)];
-                foreach (Leds led in leds)
+                var l = characterLeds[DisplayCharacter.ToUpper(CultureInfo.CurrentCulture)];
+                
+                foreach (var led in l)
                 {
-                    this.leds[led].Fill = new SolidColorBrush(this.LedOnColor);
+                    leds[led].Fill = new SolidColorBrush(LedOnColor);
                 }
             }
             //show decimal point
             if (PointOn == true)
             {
-                this.leds[Leds.PO].Fill = new SolidColorBrush(this.LedOnColor);
+                leds[Leds.PO].Fill = new SolidColorBrush(LedOnColor);
             }
         }
         private void ShowError()
         {
-            foreach (Path path in this.leds.Values)
+            foreach (var path in leds.Values)
             {
-                path.Fill = new SolidColorBrush(this.LedOnColor);
+                path.Fill = new SolidColorBrush(LedOnColor);
             }
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
-        protected override FrameworkElement ResourceRoot
-        {
-            get
-            {
-                return IndicatorLEDs;
-            }
-        }
+        protected override FrameworkElement ResourceRoot => IndicatorLEDs;
     }
 }

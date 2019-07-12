@@ -21,7 +21,6 @@ namespace Codeplex.Dashboarding
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
 
     /// <summary>
     /// A quarter of a circle dial that sweeps through 90 degrees upper left quadrant
@@ -47,10 +46,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         /// <summary>
         /// Determines the angle of the needle based on the mouse 
@@ -60,14 +56,14 @@ namespace Codeplex.Dashboarding
         /// <returns>The angle in degrees</returns>
         protected override double CalculateRotationAngle(Point currentPoint)
         {
-            double opposite = (currentPoint.Y + FaciaWidth * 2) - ActualHeight;
-            double adjacent = (currentPoint.X + FaciaWidth * 2) - ActualWidth ;
+            var opposite = (currentPoint.Y + FaciaWidth * 2) - ActualHeight;
+            var adjacent = (currentPoint.X + FaciaWidth * 2) - ActualWidth ;
             adjacent = adjacent >= 0 ? -0.1 : adjacent ;
 
-            double tan = opposite / adjacent;
-            double angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
+            var tan = opposite / adjacent;
+            var angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
 
-            _debug.Text = String.Format("{0:0.00} {1:0.00} {2:0.00}", opposite, adjacent, angleInDegrees);
+            _debug.Text = string.Format("{0:0.00} {1:0.00} {2:0.00}", opposite, adjacent, angleInDegrees);
 
   
             return angleInDegrees;

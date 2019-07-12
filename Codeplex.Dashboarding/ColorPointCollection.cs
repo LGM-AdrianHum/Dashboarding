@@ -47,7 +47,7 @@ namespace Codeplex.Dashboarding
         public ColorPoint GetColor(double position)
         {
             ColorPoint res = null;
-            foreach (ColorPoint point in this)
+            foreach (var point in this)
             {
                 if (position >= point.Value)
                 {
@@ -55,7 +55,7 @@ namespace Codeplex.Dashboarding
                 }
             }
 
-            if (res == null && this.Count > 0)
+            if (res == null && Count > 0)
             {
                 return this[0];
             }

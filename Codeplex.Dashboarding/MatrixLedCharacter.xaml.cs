@@ -21,7 +21,6 @@ namespace Codeplex.Dashboarding
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Shapes;
 
@@ -76,11 +75,11 @@ namespace Codeplex.Dashboarding
         public MatrixLedCharacter()
         {
             InitializeComponent();
-            this.Clear();
+            Clear();
 
-            this.LedOffColor = Color.FromArgb(0x22, 0xFF, 0x00, 0x00);
-            this.LedOnColor = Color.FromArgb(0xFF, 0xFF, 0x00, 0x00);
-            this.Loaded += new RoutedEventHandler(this.MatrixLedCharacter_Loaded);
+            LedOffColor = Color.FromArgb(0x22, 0xFF, 0x00, 0x00);
+            LedOnColor = Color.FromArgb(0xFF, 0xFF, 0x00, 0x00);
+            Loaded += new RoutedEventHandler(MatrixLedCharacter_Loaded);
         }
 
         #endregion Constructors
@@ -112,15 +111,9 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOffColor
         {
-            get
-            {
-                return (Color)GetValue(LedOffColorProperty);
-            }
+            get => (Color)GetValue(LedOffColorProperty);
 
-            set
-            {
-                SetValue(LedOffColorProperty, value);
-            }
+            set => SetValue(LedOffColorProperty, value);
         }
 
         /// <summary>
@@ -130,15 +123,9 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOnColor
         {
-            get
-            {
-                return (Color)GetValue(LedOnColorProperty);
-            }
+            get => (Color)GetValue(LedOnColorProperty);
 
-            set
-            {
-                SetValue(LedOnColorProperty, value);
-            }
+            set => SetValue(LedOnColorProperty, value);
         }
 
         /// <summary>
@@ -147,15 +134,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public string Text
         {
-            get
-            {
-                return (string)GetValue(TextProperty);
-            }
+            get => (string)GetValue(TextProperty);
 
-            set
-            {
-                SetValue(TextProperty, value);
-            }
+            set => SetValue(TextProperty, value);
         }
 
         #endregion Properties
@@ -164,10 +145,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         /// <summary>
         /// Gets or sets the led on brush, cached for efficiency (Cheers Inferno).
@@ -193,11 +171,11 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "I need this to chain the leds")]
         public void ScrollOne(object sender, MatrixScrollEventArgs args)
         {
-            List<bool> toPassOver = this.columns[0];
-            this.columns.RemoveAt(0);
-            this.columns.Add(args.Column);
-            this.OnScrollOut(toPassOver);
-            this.UpdateLedsFromState();
+            var toPassOver = columns[0];
+            columns.RemoveAt(0);
+            columns.Add(args.Column);
+            OnScrollOut(toPassOver);
+            UpdateLedsFromState();
         }
 
         /// <summary>
@@ -205,13 +183,13 @@ namespace Codeplex.Dashboarding
         /// </summary>
         internal void Clear()
         {
-            this.columns.Clear();
-            for (int i = 0; i < 5; i++)
+            columns.Clear();
+            for (var i = 0; i < 5; i++)
             {
-                this.columns.Add(new List<bool> { false, false, false, false, false, false, false });
+                columns.Add(new List<bool> { false, false, false, false, false, false, false });
             }
 
-            this.UpdateLedsFromState();
+            UpdateLedsFromState();
         }
 
         /// <summary>
@@ -221,7 +199,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedCharacter instance = dependancy as MatrixLedCharacter;
+            var instance = dependancy as MatrixLedCharacter;
             instance.LedColorChanged();
 
             if (instance != null && instance.DashboardLoaded)
@@ -240,9 +218,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void TextPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            MatrixLedCharacter instance = dependancy as MatrixLedCharacter;
-
-            if (instance != null)
+            if (dependancy is MatrixLedCharacter instance)
             {
                 if (instance.Text != null && instance.DashboardLoaded)
                 {
@@ -256,9 +232,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void ManifestChanges()
         {
-            if (!String.IsNullOrEmpty(this.Text))
+            if (!string.IsNullOrEmpty(Text))
             {
-                this.UpdateLedsFromCharacter();
+                UpdateLedsFromCharacter();
             }
         }
 
@@ -269,8 +245,8 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void MatrixLedCharacter_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ManifestChanges();
-            this.DashboardLoaded = true;
+            ManifestChanges();
+            DashboardLoaded = true;
         }
 
         /// <summary>
@@ -279,9 +255,9 @@ namespace Codeplex.Dashboarding
         /// <param name="toPassOver">To pass over.</param>
         private void OnScrollOut(List<bool> toPassOver)
         {
-            if (this.ScrollOut != null)
+            if (ScrollOut != null)
             {
-                this.ScrollOut(this, new MatrixScrollEventArgs(toPassOver));
+                ScrollOut(this, new MatrixScrollEventArgs(toPassOver));
             }
         }
 
@@ -291,11 +267,11 @@ namespace Codeplex.Dashboarding
         /// <param name="x">the column number</param>
         private void ProcessColumn(int x)
         {
-            for (int y = 0; y < this.columns[x].Count; y++)
+            for (var y = 0; y < columns[x].Count; y++)
             {
-                bool on = this.columns[x][y];
-                Ellipse el = LayoutRoot.FindName(String.Format("_l{0}_{1}", x, y)) as Ellipse;
-                this.TureLedOnOrOff(on, el);
+                var on = columns[x][y];
+                var el = LayoutRoot.FindName(string.Format("_l{0}_{1}", x, y)) as Ellipse;
+                TureLedOnOrOff(on, el);
             }
         }
 
@@ -308,7 +284,7 @@ namespace Codeplex.Dashboarding
         {
             if (el != null)
             {
-                el.Fill = on ? this.LedOnBrush : this.LedOffBrush;
+                el.Fill = on ? LedOnBrush : LedOffBrush;
             }
         }
 
@@ -317,11 +293,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateLedsFromCharacter()
         {
-            byte[] bytes = MatrixLedCharacterDefinitions.GetDefinition(this.Text);
-            this.columns.Clear();
-            for (int i = 0; i < bytes.Length - 1; i++)
+            var bytes = MatrixLedCharacterDefinitions.GetDefinition(Text);
+            columns.Clear();
+            for (var i = 0; i < bytes.Length - 1; i++)
             {
-                List<bool> n = new List<bool>
+                var n = new List<bool>
                 {
                     (bytes[i] & 0x40) != 0,
                     (bytes[i] & 0x20) != 0,
@@ -331,10 +307,10 @@ namespace Codeplex.Dashboarding
                     (bytes[i] & 0x02) != 0,
                     (bytes[i] & 0x01) != 0,
                 };
-                this.columns.Add(n);
+                columns.Add(n);
             }
 
-            this.UpdateLedsFromState();
+            UpdateLedsFromState();
         }
 
         /// <summary>
@@ -342,16 +318,16 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void LedColorChanged()
         {
-            if (this.LedOnBrush == null || (this.LedOnBrush != null && this.LedOnBrush.Color != this.LedOnColor))
+            if (LedOnBrush == null || (LedOnBrush != null && LedOnBrush.Color != LedOnColor))
             {
-                this.LedOnBrush = new SolidColorBrush(this.LedOnColor);
-                Freeze(this.LedOnBrush);
+                LedOnBrush = new SolidColorBrush(LedOnColor);
+                Freeze(LedOnBrush);
             }
 
-            if (this.LedOffBrush == null || (this.LedOffBrush != null && this.LedOffBrush.Color != this.LedOffColor))
+            if (LedOffBrush == null || (LedOffBrush != null && LedOffBrush.Color != LedOffColor))
             {
-                this.LedOffBrush = new SolidColorBrush(this.LedOffColor);
-                Freeze(this.LedOffBrush);
+                LedOffBrush = new SolidColorBrush(LedOffColor);
+                Freeze(LedOffBrush);
             }
         }
 
@@ -360,9 +336,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateLedsFromState()
         {
-            for (int x = 0; x < this.columns.Count; x++)
+            for (var x = 0; x < columns.Count; x++)
             {
-                this.ProcessColumn(x);
+                ProcessColumn(x);
             }
         }
 

@@ -71,12 +71,12 @@ namespace Codeplex.Dashboarding
         public Scale()
         {
             InitializeComponent();
-            this.MarkColor = new SolidColorBrush(Colors.White);
-            this.AngleOffset = 0;
-            this.MarkSize = 8;
+            MarkColor = new SolidColorBrush(Colors.White);
+            AngleOffset = 0;
+            MarkSize = 8;
             
-            this.Sweep = 360;
-            this.Render();
+            Sweep = 360;
+            Render();
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace Codeplex.Dashboarding
         /// <value>The angle offset.</value>
         public double AngleOffset
         {
-            get { return (double)GetValue(AngleOffsetProperty); }
-            set { SetValue(AngleOffsetProperty, value); }
+            get => (double)GetValue(AngleOffsetProperty);
+            set => SetValue(AngleOffsetProperty, value);
         }
 
         /// <summary>
@@ -130,8 +130,8 @@ namespace Codeplex.Dashboarding
         /// <value>The sweep.</value>
         public double Sweep
         {
-            get { return (double)GetValue(SweepProperty); }
-            set { SetValue(SweepProperty, value); }
+            get => (double)GetValue(SweepProperty);
+            set => SetValue(SweepProperty, value);
         }
 
         /// <summary>
@@ -140,8 +140,8 @@ namespace Codeplex.Dashboarding
         /// <value><c>true</c> if show shadow; otherwise, <c>false</c>.</value>
         public bool ShowShadow
         {
-            get { return (bool)GetValue(ShowShadowProperty); }
-            set { SetValue(ShowShadowProperty, value); }
+            get => (bool)GetValue(ShowShadowProperty);
+            set => SetValue(ShowShadowProperty, value);
         }
 
         /// <summary>
@@ -150,8 +150,8 @@ namespace Codeplex.Dashboarding
         /// <value>The size of the mark.</value>
         public double MarkSize
         {
-            get { return (double)GetValue(MarkSizeProperty); }
-            set { SetValue(MarkSizeProperty, value); }
+            get => (double)GetValue(MarkSizeProperty);
+            set => SetValue(MarkSizeProperty, value);
         }
 
         /// <summary>
@@ -160,8 +160,8 @@ namespace Codeplex.Dashboarding
         /// <value>The mark type to display.</value>
         public TickMark Mark
         {
-            get { return (TickMark)GetValue(MarkProperty); }
-            set { SetValue(MarkProperty, value); }
+            get => (TickMark)GetValue(MarkProperty);
+            set => SetValue(MarkProperty, value);
         }
 
         /// <summary>
@@ -170,8 +170,8 @@ namespace Codeplex.Dashboarding
         /// <value>The color of the mark.</value>
         public Brush MarkColor
         {
-            get { return (Brush)GetValue(MarkColorProperty); }
-            set { SetValue(MarkColorProperty, value); }
+            get => (Brush)GetValue(MarkColorProperty);
+            set => SetValue(MarkColorProperty, value);
         }
 
         /// <summary>
@@ -180,10 +180,10 @@ namespace Codeplex.Dashboarding
         public void Render()
         {
             _canvas.Children.Clear();
-            this.Effect = this.ShowShadow ? new DropShadowEffect { ShadowDepth = 0.1 }  : null;
-            for (int i = 0; i <= this.Sweep; i++)
+            Effect = ShowShadow ? new DropShadowEffect { ShadowDepth = 0.1 }  : null;
+            for (var i = 0; i <= Sweep; i++)
             {
-                this.AddAngleTick(i, this.AngleOffset);
+                AddAngleTick(i, AngleOffset);
             }
         }
 
@@ -253,8 +253,7 @@ namespace Codeplex.Dashboarding
         /// <param name="instance">The instance.</param>
         private static void RefreshFromDependencyProperty(DependencyObject instance)
         {
-            Scale scale = instance as Scale;
-            if (scale != null)
+            if (instance is Scale scale)
             {
                 scale.Render();
             }
@@ -273,15 +272,15 @@ namespace Codeplex.Dashboarding
         {
             if (angle % 90 == 0)
             {
-                this.AddTick(this.MarkSize, angle + offset);
+                AddTick(MarkSize, angle + offset);
             } 
             else if (angle % 45 == 0)
             {
-                this.AddTick(this.MarkSize / 2, angle + offset);
+                AddTick(MarkSize / 2, angle + offset);
             }
             else if (angle % 5 == 0)
             {
-                this.AddTick(this.MarkSize / 4, angle + offset);
+                AddTick(MarkSize / 4, angle + offset);
             }
         }
 
@@ -293,26 +292,26 @@ namespace Codeplex.Dashboarding
         private void AddTick(double size, double angle)
         {
             Shape r = null;
-            if (this.Mark == TickMark.Square)
+            if (Mark == TickMark.Square)
             {
                 r = new Rectangle { Width = size, Height = size };
             }
-            else if (this.Mark == TickMark.Line)
+            else if (Mark == TickMark.Line)
             {
                 r = new Rectangle { Width = 1, Height = size };
             }
-            else if (this.Mark == TickMark.Round)
+            else if (Mark == TickMark.Round)
             {
                 r = new Ellipse { Width = size, Height = size };
             }
-            else if (this.Mark == TickMark.Triangle)
+            else if (Mark == TickMark.Triangle)
             {
                 r = GetTriangle(size);
             }
 
             if (r != null)
             {
-                r.Fill = this.MarkColor;
+                r.Fill = MarkColor;
                 r.RenderTransform = new RotateTransform() { CenterX = r.Width / 2, CenterY = ScaleSize / 2, Angle = angle };
                 _canvas.Children.Add(r);
                 r.SetValue(Canvas.LeftProperty, (ScaleSize / 2) - (r.Width / 2));
@@ -322,10 +321,10 @@ namespace Codeplex.Dashboarding
 
         private static Shape GetTriangle(double size)
         {
-            PathGeometry pg = new PathGeometry();
+            var pg = new PathGeometry();
             pg.FillRule = FillRule.Nonzero;
             pg.Figures = new PathFigureCollection();
-            PathFigure pf = new PathFigure();
+            var pf = new PathFigure();
             pf.IsClosed = true;
 
             pf.StartPoint = new Point(0, 0);
@@ -333,7 +332,7 @@ namespace Codeplex.Dashboarding
             pf.Segments.Add(new LineSegment { Point = new Point(size, 0) });
             pf.Segments.Add(new LineSegment { Point = new Point(size/2, size) });
             pg.Figures.Add(pf);
-            Path p = new Path { Data = pg };
+            var p = new Path { Data = pg };
             return p;
         }
     }

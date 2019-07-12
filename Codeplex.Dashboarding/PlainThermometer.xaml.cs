@@ -20,7 +20,6 @@ namespace Codeplex.Dashboarding
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
 
@@ -78,14 +77,11 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPointCollection res = (ColorPointCollection)GetValue(MercuryColorRangeProperty);
+                var res = (ColorPointCollection)GetValue(MercuryColorRangeProperty);
                 return res;
             }
 
-            set
-            {
-                SetValue(MercuryColorRangeProperty, value);
-            }
+            set => SetValue(MercuryColorRangeProperty, value);
         }
 
         /// <summary>
@@ -93,10 +89,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -107,11 +100,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void Animate()
         {
-            this.UpdateTextFormat();
+            UpdateTextFormat();
 
-            if (this.fullScale == 0 || this.fullTranslate == 0)
+            if (fullScale == 0 || fullTranslate == 0)
             {
-                this.InitializeAnimation();
+                InitializeAnimation();
             }
 
             if (IsBidirectional)
@@ -125,15 +118,15 @@ namespace Codeplex.Dashboarding
                 _grabHandle.Visibility = Visibility.Collapsed;
             }
 
-            this.UpdateMercuryColor();
+            UpdateMercuryColor();
 
             if (!IsBidirectional || (IsBidirectional && !IsGrabbed))
             {
-                this.SetPointerByAnimationOverSetTime(NormalizedValue, AnimationDuration);
+                SetPointerByAnimationOverSetTime(NormalizedValue, AnimationDuration);
             }
             else
             {
-                this.SetPointerByAnimationOverSetTime(CurrentNormalizedValue, TimeSpan.Zero);
+                SetPointerByAnimationOverSetTime(CurrentNormalizedValue, TimeSpan.Zero);
             }
         }
 
@@ -154,11 +147,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateMercuryColor();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateMercuryColor();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -170,7 +163,7 @@ namespace Codeplex.Dashboarding
         {
             base.OnMouseGrabHandleMove(mouseDownPosition, currentPosition);
             MoveCurrentPositionByOffset(mouseDownPosition.Y - currentPosition.Y);
-            this.Animate();
+            Animate();
         }
 
         /// <summary>
@@ -204,9 +197,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextFormat()
         {
-            if (this._text != null)
+            if (_text != null)
             {
-                this._text.Text = IsGrabbed ? FormattedCurrentValue : FormattedValue;
+                _text.Text = IsGrabbed ? FormattedCurrentValue : FormattedValue;
             }
         }
 
@@ -226,8 +219,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void MercuryColorRangeChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            PlainThermometer instance = dependancy as PlainThermometer;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is PlainThermometer instance && instance.DashboardLoaded)
             {
                 instance.Animate();
             }
@@ -238,10 +230,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void InitializeAnimation()
         {
-            DoubleAnimationUsingKeyFrames da = GetChildDoubleAnimationUsingKeyFrames(AnimateIndicatorStoryboard, "_scaleContainer");
-            this.fullScale = da.KeyFrames[0].Value;
+            var da = GetChildDoubleAnimationUsingKeyFrames(AnimateIndicatorStoryboard, "_scaleContainer");
+            fullScale = da.KeyFrames[0].Value;
             da = GetChildDoubleAnimationUsingKeyFrames(AnimateIndicatorStoryboard, "_translateContainer");
-            this.fullTranslate = da.KeyFrames[0].Value;
+            fullTranslate = da.KeyFrames[0].Value;
         }
 
         /// <summary>
@@ -253,13 +245,13 @@ namespace Codeplex.Dashboarding
         /// <param name="duration">The duration.</param>
         private void SetPointerByAnimationOverSetTime(double normalizedValue, TimeSpan duration)
         {
-            this.UpdateMercuryColor();
+            UpdateMercuryColor();
 
-            DoubleAnimationUsingKeyFrames da = GetChildDoubleAnimationUsingKeyFrames(AnimateIndicatorStoryboard, "_scaleContainer");
-            da.KeyFrames[0].Value = this.fullScale * normalizedValue;
+            var da = GetChildDoubleAnimationUsingKeyFrames(AnimateIndicatorStoryboard, "_scaleContainer");
+            da.KeyFrames[0].Value = fullScale * normalizedValue;
             da.KeyFrames[0].KeyTime = KeyTime.FromTimeSpan(duration);
             da = GetChildDoubleAnimationUsingKeyFrames(AnimateIndicatorStoryboard, "_translateContainer");
-            da.KeyFrames[0].Value = this.fullTranslate * normalizedValue;
+            da.KeyFrames[0].Value = fullTranslate * normalizedValue;
             da.KeyFrames[0].KeyTime = KeyTime.FromTimeSpan(duration);
             da = GetChildDoubleAnimationUsingKeyFrames(AnimateIndicatorStoryboard, "_animGrab");
             da.KeyFrames[0].Value = -(normalizedValue * 100);
@@ -272,13 +264,12 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateMercuryColor()
         {
-            ColorPoint c = this.MercuryColorRange.GetColor(Value);
+            var c = MercuryColorRange.GetColor(Value);
             if (c != null)
             {
-                for (int i = 0; i < 20; i++)
+                for (var i = 0; i < 20; i++)
                 {
-                    GradientStop gs = LayoutRoot.FindName("_mercL" + i) as GradientStop;
-                    if (gs != null)
+                    if (LayoutRoot.FindName("_mercL" + i) is GradientStop gs)
                     {
                         gs.Color = c.LowColor;
                     }

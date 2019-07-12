@@ -35,10 +35,7 @@ namespace Codeplex.Dashboarding
         /// for example the needle for a Dial360
         /// </summary>
         /// <value>The animate position.</value>
-        protected Storyboard AnimateIndicatorStoryboard
-        {
-            get { return this.GetStoryboard("_swipe"); }
-        }
+        protected Storyboard AnimateIndicatorStoryboard => GetStoryboard("_swipe");
 
         /// <summary>
         /// Gets the StoryBoard used to animate the grab handle for a bidirectional controle
@@ -46,10 +43,7 @@ namespace Codeplex.Dashboarding
         /// for ease of implementation and to allow us to encapsulate all WPF bridging code in one class
         /// </summary>
         /// <value>The animate position.</value>
-        protected Storyboard AnimateGrabHandleStoryboard
-        {
-            get { return this.GetStoryboard("_moveGrab"); }
-        }
+        protected Storyboard AnimateGrabHandleStoryboard => GetStoryboard("_moveGrab");
 
         /// <summary>
         /// Gets the resource root. This allow us to access the Storyboards in a Silverlight/WPf
@@ -66,7 +60,7 @@ namespace Codeplex.Dashboarding
         /// <returns>The requested child point animation</returns>
         protected static PointAnimation GetChildPointAnimation(Storyboard storyboard, string name)
         {
-            foreach (Timeline tl in storyboard.Children)
+            foreach (var tl in storyboard.Children)
             {
 #if WPF
                 if (tl.Name == name)
@@ -133,9 +127,8 @@ namespace Codeplex.Dashboarding
             {
                 return sdf;
             }
-            
-            DoubleAnimationUsingKeyFrames anim = sb.Children[0] as DoubleAnimationUsingKeyFrames;
-            if (anim == null || anim.KeyFrames.Count != 1)
+
+            if (!(sb.Children[0] is DoubleAnimationUsingKeyFrames anim) || anim.KeyFrames.Count != 1)
             {
                 return sdf;
             }
@@ -202,7 +195,7 @@ namespace Codeplex.Dashboarding
         protected Storyboard GetStoryboard(string name)
         {
 #if WPF
-            return (Storyboard)this.ResourceRoot.Resources[name];
+            return (Storyboard)ResourceRoot.Resources[name];
 #else
             return (Storyboard)this.ResourceRoot.FindName(name);
 #endif

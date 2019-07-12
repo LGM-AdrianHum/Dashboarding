@@ -19,12 +19,7 @@
 namespace Codeplex.Dashboarding
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media;
-    using System.Windows.Media.Animation;
-    using System.Windows.Shapes;
 
     /// <summary>
     /// A needle and dial face control where the needle sweeps a 180 degree path from west to east. A Dial180 can be instantiated
@@ -46,10 +41,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         /// <summary>
         /// Determines the angle of the needle based on the mouse 
@@ -59,11 +51,11 @@ namespace Codeplex.Dashboarding
         /// <returns>The angle in degrees</returns>
         protected override double CalculateRotationAngle(Point currentPoint)
         {
-            double opposite = currentPoint.Y -6;
+            var opposite = currentPoint.Y -6;
             opposite = opposite > 0 ? opposite : 0;
-            double adjacent = (ActualWidth / 2) - currentPoint.X;
-            double tan = opposite / adjacent;
-            double angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
+            var adjacent = (ActualWidth / 2) - currentPoint.X;
+            var tan = opposite / adjacent;
+            var angleInDegrees = Math.Atan(tan) * (180.0 / Math.PI);
 
             if (angleInDegrees < 0)
             {

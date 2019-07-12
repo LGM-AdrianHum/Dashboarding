@@ -28,7 +28,7 @@ namespace Demos.Common.Demonstrators
         public VduMeterDemonstrator()
         {
             InitializeComponent();
-            this.DataContext = new BoundObject();
+            DataContext = new BoundObject();
         }
     }
 }

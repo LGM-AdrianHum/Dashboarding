@@ -21,7 +21,6 @@ namespace Codeplex.Dashboarding
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Threading;
 
     /// <summary>
@@ -83,9 +82,9 @@ namespace Codeplex.Dashboarding
         public Odometer()
         {
             InitializeComponent();
-            Loaded += new RoutedEventHandler(this.Odometer_Loaded);
-            this.timer.Interval = new TimeSpan(0, 0, 0, 0, 750);
-            this.timer.Tick += new EventHandler(this.Timer_Tick);
+            Loaded += new RoutedEventHandler(Odometer_Loaded);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 750);
+            timer.Tick += new EventHandler(Timer_Tick);
         }
 
         #endregion Constructors
@@ -208,8 +207,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public double Digits
         {
-            get { return (double)GetValue(DigitsProperty); }
-            set { SetValue(DigitsProperty, value); }
+            get => (double)GetValue(DigitsProperty);
+            set => SetValue(DigitsProperty, value);
         }
 
         /// <summary>
@@ -218,8 +217,8 @@ namespace Codeplex.Dashboarding
         /// <value>The final value.</value>
         public int FinalValue
         {
-            get { return (int)GetValue(FinalValueProperty); }
-            set { SetValue(FinalValueProperty, value); }
+            get => (int)GetValue(FinalValueProperty);
+            set => SetValue(FinalValueProperty, value);
         }
 
         /// <summary>
@@ -227,8 +226,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public int InitialValue
         {
-            get { return (int)GetValue(InitialValueProperty); }
-            set { SetValue(InitialValueProperty, value); }
+            get => (int)GetValue(InitialValueProperty);
+            set => SetValue(InitialValueProperty, value);
         }
 
         /// <summary>
@@ -236,8 +235,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public double Interval
         {
-            get { return (double)GetValue(IntervalProperty); }
-            set { SetValue(IntervalProperty, value); }
+            get => (double)GetValue(IntervalProperty);
+            set => SetValue(IntervalProperty, value);
         }
 
         /// <summary>
@@ -246,8 +245,8 @@ namespace Codeplex.Dashboarding
         /// <value>The meter mode.</value>
         public Mode MeterMode
         {
-            get { return (Mode)GetValue(MeterModeProperty); }
-            set { SetValue(MeterModeProperty, value); }
+            get => (Mode)GetValue(MeterModeProperty);
+            set => SetValue(MeterModeProperty, value);
         }
 
         /// <summary>
@@ -255,10 +254,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         /// <summary>
         /// Gets the current value.
@@ -268,16 +264,16 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                int res = 0;
+                var res = 0;
 
-                for (int i = 0; i < this.digits.Count; i++)
+                for (var i = 0; i < digits.Count; i++)
                 {
                     if (i > 0)
                     {
                         res = res * 10;
                     }
 
-                    res += this.digits[i].Digit;
+                    res += digits[i].Digit;
                 }
 
                 return res;
@@ -293,7 +289,7 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public void Decrement()
         {
-            this.Decrement(IncrementDecrementDigit.Units);
+            Decrement(IncrementDecrementDigit.Units);
         }
 
         /// <summary>
@@ -305,10 +301,10 @@ namespace Codeplex.Dashboarding
         /// <param name="digit">the digit to move</param>
         public void Decrement(IncrementDecrementDigit digit)
         {
-            int theDigit = (int)digit;
-            if (this.digits.Count > theDigit - 1)
+            var theDigit = (int)digit;
+            if (digits.Count > theDigit - 1)
             {
-                this.digits[this.digits.Count - theDigit].Decrement();
+                digits[digits.Count - theDigit].Decrement();
             }
         }
 
@@ -318,7 +314,7 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public void Increment()
         {
-            this.Increment(IncrementDecrementDigit.Units);
+            Increment(IncrementDecrementDigit.Units);
         }
 
         /// <summary>
@@ -330,10 +326,10 @@ namespace Codeplex.Dashboarding
         /// <param name="digit">the digit to move</param>
         public void Increment(IncrementDecrementDigit digit)
         {
-            int theDigit = (int)digit;
-            if (this.digits.Count > theDigit - 1)
+            var theDigit = (int)digit;
+            if (digits.Count > theDigit - 1)
             {
-                this.digits[this.digits.Count - theDigit].Increment();
+                digits[digits.Count - theDigit].Increment();
             }
         }
 
@@ -344,8 +340,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void DigitsPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Odometer instance = dependancy as Odometer;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Odometer instance && instance.DashboardLoaded)
             {
                 instance.UpdateDigits();
             }
@@ -358,8 +353,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void InitialValuePropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Odometer instance = dependancy as Odometer;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Odometer instance && instance.DashboardLoaded)
             {
                 instance.UpdateInitialValue();
             }
@@ -372,8 +366,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void IntervalPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Odometer instance = dependancy as Odometer;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Odometer instance && instance.DashboardLoaded)
             {
                 instance.UpdateInterval();
             }
@@ -384,9 +377,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void ManifestChanges()
         {
-            this.UpdateDigits();
-            this.UpdateInitialValue();
-            this.UpdateInterval();
+            UpdateDigits();
+            UpdateInitialValue();
+            UpdateInterval();
         }
 
         /// <summary>
@@ -394,18 +387,18 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void MoveFromInitialToFinal()
         {
-            if (this.InitialValue < this.FinalValue)
+            if (InitialValue < FinalValue)
             {
-                if (this.CurrentValue < this.FinalValue)
+                if (CurrentValue < FinalValue)
                 {
-                    this.Increment();
+                    Increment();
                 }
             }
-            else if (this.FinalValue < this.InitialValue)
+            else if (FinalValue < InitialValue)
             {
-                if (this.CurrentValue > this.FinalValue)
+                if (CurrentValue > FinalValue)
                 {
-                    this.Decrement();
+                    Decrement();
                 }
             }
         }
@@ -417,11 +410,11 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void Odometer_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ManifestChanges();
-            this.DashboardLoaded = true;
-            if (this.MeterMode != Mode.Static)
+            ManifestChanges();
+            DashboardLoaded = true;
+            if (MeterMode != Mode.Static)
             {
-                this.timer.Start();
+                timer.Start();
             }
         }
 
@@ -432,18 +425,18 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void Timer_Tick(object sender, EventArgs e)
         {
-            switch (this.MeterMode)
+            switch (MeterMode)
             {
                 case Mode.Static:
                     break;
                 case Mode.AutoIncrement:
-                    this.Increment();
+                    Increment();
                     break;
                 case Mode.AutoDecrement:
-                    this.Decrement();
+                    Decrement();
                     break;
                 case Mode.InitialToFinal:
-                    this.MoveFromInitialToFinal();
+                    MoveFromInitialToFinal();
                     break;
             }
         }
@@ -455,13 +448,13 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateDigits()
         {
-            if (this.digits.Count == 0)
+            if (digits.Count == 0)
             {
                 _stack.Children.Clear();
                 OdometerDigit lastDigit = null;
-                for (int i = 0; i < (int)this.Digits; i++)
+                for (var i = 0; i < (int)Digits; i++)
                 {
-                    OdometerDigit digit = new OdometerDigit();
+                    var digit = new OdometerDigit();
                     if (lastDigit != null)
                     {
                         digit.DecadePlus += new EventHandler<EventArgs>(lastDigit.LowerOrderDigitDecadePlus);
@@ -469,7 +462,7 @@ namespace Codeplex.Dashboarding
                     }
 
                     lastDigit = digit;
-                    this.digits.Add(digit);
+                    digits.Add(digit);
                     _stack.Children.Add(digit);
                 }
             }
@@ -481,20 +474,20 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateInitialValue()
         {
-            double val = this.InitialValue;
-            double neededDigits = (Math.Log10(this.InitialValue) + 1) / Math.Log10(10);
+            double val = InitialValue;
+            var neededDigits = (Math.Log10(InitialValue) + 1) / Math.Log10(10);
 
-            if (this.Digits < neededDigits)
+            if (Digits < neededDigits)
             {
-                this.digits.Clear();
-                this.Digits = neededDigits;
-                this.UpdateDigits();
+                digits.Clear();
+                Digits = neededDigits;
+                UpdateDigits();
             }
 
-            for (int i = this.digits.Count; i > 0; i--)
+            for (var i = digits.Count; i > 0; i--)
             {
-                double d = val % 10;
-                OdometerDigit dg = this.digits[i - 1];
+                var d = val % 10;
+                var dg = digits[i - 1];
                 dg.SetInitialValue((int)d);
                 val = val / 10;
             }
@@ -505,7 +498,7 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateInterval()
         {
-            this.timer.Interval = TimeSpan.FromSeconds(this.Interval);
+            timer.Interval = TimeSpan.FromSeconds(Interval);
         }
 
         #endregion Methods

@@ -68,10 +68,7 @@ namespace Codeplex.Dashboarding
         /// <summary>
         /// Gets the shape used to highlight the grab control
         /// </summary>
-        protected override Shape GrabHighlight
-        {
-            get { return this.grabHighlightShape; }
-        }
+        protected override Shape GrabHighlight => grabHighlightShape;
 
         /// <summary>
         /// Requires that the control honors all appearance setting as specified in the
@@ -80,12 +77,12 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateFaceColor();
-            this.UpdateNeedleColor();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateFaceColor();
+            UpdateNeedleColor();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
  
         /// <summary>
@@ -94,11 +91,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected void InitializeDial90()
         {
-            this.InitialiseRefs();
+            InitialiseRefs();
             SetValue(FaceTextColorProperty, Colors.White);
             SetValue(ValueTextColorProperty, Colors.Black);
             SetValue(FontSizeProperty, 7.0);
-            RegisterGrabHandle(this.grabHandleCanvas);
+            RegisterGrabHandle(grabHandleCanvas);
         }
 
         /// <summary>
@@ -106,11 +103,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextVisibility()
         {
-            this.textBlock.Visibility = ValueTextVisibility;
-            for (int i = 0; i < 5; i++)
+            textBlock.Visibility = ValueTextVisibility;
+            for (var i = 0; i < 5; i++)
             {
-                TextBlock tb = ResourceRoot.FindName("_txt" + i) as TextBlock;
-                if (tb != null)
+                if (ResourceRoot.FindName("_txt" + i) is TextBlock tb)
                 {
                     tb.Visibility = FaceTextVisibility;
                 }
@@ -122,9 +118,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateFontStyle()
         {
-            for (int i = 0; i <= 4; i++)
+            for (var i = 0; i <= 4; i++)
             {
-                TextBlock tb = ResourceRoot.FindName("_txt" + i) as TextBlock;
+                var tb = ResourceRoot.FindName("_txt" + i) as TextBlock;
                 CopyFontDetails(tb);
             }
             CopyFontDetails(textBlock);
@@ -135,11 +131,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextColor()
         {
-            this.textBlock.Foreground = new SolidColorBrush(ValueTextColor);
-            for (int i = 0; i < 5; i++)
+            textBlock.Foreground = new SolidColorBrush(ValueTextColor);
+            for (var i = 0; i < 5; i++)
             {
-                TextBlock tb = ResourceRoot.FindName("_txt" + i) as TextBlock;
-                if (tb != null)
+                if (ResourceRoot.FindName("_txt" + i) is TextBlock tb)
                 {
                     tb.Foreground = new SolidColorBrush(FaceTextColor);
                 }
@@ -151,17 +146,16 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateTextFormat()
         {
-            if (this.textBlock != null)
+            if (textBlock != null)
             {
-                this.textBlock.Text = IsGrabbed ? FormattedCurrentValue : FormattedValue;
+                textBlock.Text = IsGrabbed ? FormattedCurrentValue : FormattedValue;
             }
 
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
-                TextBlock tb = ResourceRoot.FindName("_txt" + i) as TextBlock;
-                if (tb != null)
+                if (ResourceRoot.FindName("_txt" + i) is TextBlock tb)
                 {
-                    tb.Text = String.Format(FaceTextFormat, RealMinimum + (i * ((RealMaximum - RealMinimum) / 4)));
+                    tb.Text = string.Format(FaceTextFormat, RealMinimum + (i * ((RealMaximum - RealMinimum) / 4)));
                 }
             }
         }
@@ -171,11 +165,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateFaceColor()
         {
-            ColorPoint c = FaceColorRange.GetColor(Value);
+            var c = FaceColorRange.GetColor(Value);
             if (c != null)
             {
-                this.faceHighColorGradientStop.Color = c.HiColor;
-                this.faceLowColorGradientStop.Color = c.LowColor;
+                faceHighColorGradientStop.Color = c.HiColor;
+                faceLowColorGradientStop.Color = c.LowColor;
             }
         }
 
@@ -184,11 +178,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void UpdateNeedleColor()
         {
-            ColorPoint c = NeedleColorRange.GetColor(Value);
+            var c = NeedleColorRange.GetColor(Value);
             if (c != null)
             {
-                this.needleHighColorGradientStop.Color = c.HiColor;
-                this.needleLowColorGradientStop.Color = c.LowColor;
+                needleHighColorGradientStop.Color = c.HiColor;
+                needleLowColorGradientStop.Color = c.LowColor;
             }
         }
 
@@ -208,10 +202,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected void ShowHandleIfBidirectional()
         {
-            Visibility val = IsBidirectional ? Visibility.Visible : Visibility.Collapsed;
+            var val = IsBidirectional ? Visibility.Visible : Visibility.Collapsed;
 
-            this.grabHandleCanvas.Visibility = val;
-            this.grabHighlightShape.Visibility = val;
+            grabHandleCanvas.Visibility = val;
+            grabHighlightShape.Visibility = val;
         }
 
         /// <summary>
@@ -219,18 +213,18 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void Animate()
         {
-            this.UpdateFaceColor();
-            this.UpdateNeedleColor();
+            UpdateFaceColor();
+            UpdateNeedleColor();
 
-            this.ShowHandleIfBidirectional();
+            ShowHandleIfBidirectional();
 
             if (!IsBidirectional || (IsBidirectional && !IsGrabbed))
             {
-                this.SetPointerByAnimationOverSetTime(this.CalculatePointFromNormalisedValue(), CurrentValue, AnimationDuration);
+                SetPointerByAnimationOverSetTime(CalculatePointFromNormalisedValue(), CurrentValue, AnimationDuration);
             }
             else
             {
-                this.SetPointerByAnimationOverSetTime(this.CalculatePointFromCurrentNormalisedValue(), CurrentValue, TimeSpan.Zero);
+                SetPointerByAnimationOverSetTime(CalculatePointFromCurrentNormalisedValue(), CurrentValue, TimeSpan.Zero);
             }
         }
  
@@ -251,13 +245,13 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void InitialiseRefs()
         {
-            this.grabHandleCanvas = ResourceRoot.FindName("_grabHandle") as Canvas;
-            this.grabHighlightShape = ResourceRoot.FindName("_grabHighlight") as Shape;
-            this.textBlock = ResourceRoot.FindName("_text") as TextBlock;
-            this.faceHighColorGradientStop = ResourceRoot.FindName("_colourRangeStart") as GradientStop;
-            this.faceLowColorGradientStop = ResourceRoot.FindName("_colourRangeEnd") as GradientStop;
-            this.needleHighColorGradientStop = ResourceRoot.FindName("_needleHighColour") as GradientStop;
-            this.needleLowColorGradientStop = ResourceRoot.FindName("_needleLowColour") as GradientStop;
+            grabHandleCanvas = ResourceRoot.FindName("_grabHandle") as Canvas;
+            grabHighlightShape = ResourceRoot.FindName("_grabHighlight") as Shape;
+            textBlock = ResourceRoot.FindName("_text") as TextBlock;
+            faceHighColorGradientStop = ResourceRoot.FindName("_colourRangeStart") as GradientStop;
+            faceLowColorGradientStop = ResourceRoot.FindName("_colourRangeEnd") as GradientStop;
+            needleHighColorGradientStop = ResourceRoot.FindName("_needleHighColour") as GradientStop;
+            needleLowColorGradientStop = ResourceRoot.FindName("_needleLowColour") as GradientStop;
         }
 
         /// <summary>
@@ -270,13 +264,13 @@ namespace Codeplex.Dashboarding
         /// <param name="duration">The duration.</param>
         private void SetPointerByAnimationOverSetTime(double point, double value, TimeSpan duration)
         {
-            this.UpdateTextFormat();
+            UpdateTextFormat();
 
-            SplineDoubleKeyFrame needle = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, point);
+            var needle = SetFirstChildSplineDoubleKeyFrameTime(AnimateIndicatorStoryboard, point);
             needle.KeyTime = KeyTime.FromTimeSpan(duration);
             Start(AnimateIndicatorStoryboard);
 
-            SplineDoubleKeyFrame handle = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, point);
+            var handle = SetFirstChildSplineDoubleKeyFrameTime(AnimateGrabHandleStoryboard, point);
             handle.KeyTime = KeyTime.FromTimeSpan(duration);
             Start(AnimateGrabHandleStoryboard);
         }

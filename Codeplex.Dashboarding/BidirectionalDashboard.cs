@@ -21,7 +21,6 @@
 namespace Codeplex.Dashboarding
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Windows;
     using System.Windows.Input;
 
@@ -62,7 +61,7 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected BidirectionalDashboard()
         {
-            this.IsGrabbed = false; 
+            IsGrabbed = false; 
         }
 
         #region public properties
@@ -72,13 +71,7 @@ namespace Codeplex.Dashboarding
         /// Minimum &lt;= CurrentValue &lt;= Maximum
         /// </summary>
         /// <value>The current value.</value>
-        public double CurrentValue
-        {
-            get
-            {
-                return this.Minimum + ((this.Maximum - this.Minimum) * this.CurrentNormalizedValue);
-            }
-        }
+        public double CurrentValue => Minimum + ((Maximum - Minimum) * CurrentNormalizedValue);
 
         /// <summary>
         /// Gets or sets a value indicating whether this dashboard is bidrectional. IsBiderectional == false means that
@@ -87,16 +80,12 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public bool IsBidirectional
         {
-            get
-            {
-                bool res = (bool)GetValue(IsBidirectionalProperty);
-                return res;
-            }
+            get => (bool)GetValue(IsBidirectionalProperty);
 
             set
             {
                 SetValue(IsBidirectionalProperty, value);
-                this.SetGrabHandleEventsForGrabState();
+                SetGrabHandleEventsForGrabState();
             }
         }
 
@@ -113,7 +102,7 @@ namespace Codeplex.Dashboarding
             {
                 try
                 {
-                    return String.Format(this.ValueTextFormat ?? "{0:000}", this.CurrentValue);
+                    return string.Format(ValueTextFormat ?? "{0:000}", CurrentValue);
                 }
                 catch (FormatException)
                 {
@@ -161,9 +150,9 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
         internal void BidirectionalDashboard_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (this.IsBidirectional)
+            if (IsBidirectional)
             {
-                this.ShowGrabHandle();
+                ShowGrabHandle();
             }
         }
 
@@ -173,18 +162,18 @@ namespace Codeplex.Dashboarding
         /// <param name="at">The location of the ButtonDown</param>
         internal void ButtonDown(Point at)
         {
-            this.IsGrabbed = true;
-            this.CurrentNormalizedValue = this.NormalizedValue;
-            if (this.GrabHandle != null)
+            IsGrabbed = true;
+            CurrentNormalizedValue = NormalizedValue;
+            if (GrabHandle != null)
             {
-                this.GrabHandle.CaptureMouse();
+                GrabHandle.CaptureMouse();
             }
 
-            this.grabOrigin = at;
+            grabOrigin = at;
 
             // user may click-release-click on the grab handle, no mouse in event occurs 
             // so we show focus here too
-            this.ShowGrabHandle();
+            ShowGrabHandle();
         }
 
         /// <summary>
@@ -193,9 +182,9 @@ namespace Codeplex.Dashboarding
         /// <param name="p">THe mouse point</param>
         internal void MoveToPoint(Point p)
         {
-            if (this.IsBidirectional && this.IsGrabbed)
+            if (IsBidirectional && IsGrabbed)
             {
-                this.OnMouseGrabHandleMove(this.grabOrigin, p);
+                OnMouseGrabHandleMove(grabOrigin, p);
             }
         }
 
@@ -204,14 +193,14 @@ namespace Codeplex.Dashboarding
         /// </summary>
         internal void MouseUpAction()
         {
-            if (this.IsGrabbed)
+            if (IsGrabbed)
             {
-                this.IsGrabbed = false;
-                Value = this.CurrentValue;
-                this.HideGrabHandle();
-                if (this.GrabHandle != null)
+                IsGrabbed = false;
+                Value = CurrentValue;
+                HideGrabHandle();
+                if (GrabHandle != null)
                 {
-                    this.GrabHandle.ReleaseMouseCapture();
+                    GrabHandle.ReleaseMouseCapture();
                 }
 
                 Animate();
@@ -229,9 +218,9 @@ namespace Codeplex.Dashboarding
         /// <param name="e">Mouse event args</param>
         internal void GrabHandle_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (!this.IsGrabbed && this.IsBidirectional)
+            if (!IsGrabbed && IsBidirectional)
             {
-                this.HideGrabHandle();
+                HideGrabHandle();
             }
         }
 
@@ -245,15 +234,15 @@ namespace Codeplex.Dashboarding
         /// <param name="offset">Offset in pixels</param>
         protected void MoveCurrentPositionByOffset(double offset)
         {
-            this.CurrentNormalizedValue = this.NormalizedValue + (offset / 100);
-            if (this.CurrentNormalizedValue > 1)
+            CurrentNormalizedValue = NormalizedValue + (offset / 100);
+            if (CurrentNormalizedValue > 1)
             {
-                this.CurrentNormalizedValue = 1;
+                CurrentNormalizedValue = 1;
             }
 
-            if (this.CurrentNormalizedValue < 0)
+            if (CurrentNormalizedValue < 0)
             {
-                this.CurrentNormalizedValue = 0;
+                CurrentNormalizedValue = 0;
             }
         }
 
@@ -263,8 +252,8 @@ namespace Codeplex.Dashboarding
         /// <param name="target">The FrameWorkElement representing the Grab handle</param>
         protected void RegisterGrabHandle(FrameworkElement target)
         {
-            this.GrabHandle = target;
-            this.SetGrabHandleEventsForGrabState();
+            GrabHandle = target;
+            SetGrabHandleEventsForGrabState();
         }
 
         /// <summary>
@@ -303,8 +292,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The property changed event args</param>
         private static void IsBidirectionalPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            BidirectionalDashboard instance = dependancy as BidirectionalDashboard;
-            if (instance != null)
+            if (dependancy is BidirectionalDashboard instance)
             {
                 instance.SetGrabHandleEventsForGrabState();
                 if (instance.DashboardLoaded)
@@ -323,7 +311,7 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
         private void BidirectionalDashboard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this.MouseUpAction();
+            MouseUpAction();
         }
  
         /// <summary>
@@ -333,7 +321,7 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
         private void Target_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.ButtonDown(e.GetPosition(this));
+            ButtonDown(e.GetPosition(this));
         }
 
         /// <summary>
@@ -344,8 +332,8 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
         private void GrabHandle_MouseMove(object sender, MouseEventArgs e)
         {
-            Point p = e.GetPosition(this);
-            this.MoveToPoint(p);
+            var p = e.GetPosition(this);
+            MoveToPoint(p);
         }
 
         /// <summary>
@@ -354,25 +342,25 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void SetGrabHandleEventsForGrabState()
         {
-            if (this.GrabHandle != null && this.IsBidirectional && !this.eventsRegistered)
+            if (GrabHandle != null && IsBidirectional && !eventsRegistered)
             {
-                this.GrabHandle.Cursor = this.IsBidirectional ? Cursors.Hand : Cursors.None;
-                this.GrabHandle.MouseEnter += new MouseEventHandler(this.BidirectionalDashboard_MouseEnter);
-                this.GrabHandle.MouseLeave += new MouseEventHandler(this.GrabHandle_MouseLeave);
-                this.GrabHandle.MouseLeftButtonUp += new MouseButtonEventHandler(this.BidirectionalDashboard_MouseLeftButtonUp);
-                this.GrabHandle.MouseLeftButtonDown += new MouseButtonEventHandler(this.Target_MouseLeftButtonDown);
-                this.GrabHandle.MouseMove += new MouseEventHandler(this.GrabHandle_MouseMove);
-                this.eventsRegistered = true;
+                GrabHandle.Cursor = IsBidirectional ? Cursors.Hand : Cursors.None;
+                GrabHandle.MouseEnter += new MouseEventHandler(BidirectionalDashboard_MouseEnter);
+                GrabHandle.MouseLeave += new MouseEventHandler(GrabHandle_MouseLeave);
+                GrabHandle.MouseLeftButtonUp += new MouseButtonEventHandler(BidirectionalDashboard_MouseLeftButtonUp);
+                GrabHandle.MouseLeftButtonDown += new MouseButtonEventHandler(Target_MouseLeftButtonDown);
+                GrabHandle.MouseMove += new MouseEventHandler(GrabHandle_MouseMove);
+                eventsRegistered = true;
             }
-            else if (this.GrabHandle != null && !this.IsBidirectional && this.eventsRegistered)
+            else if (GrabHandle != null && !IsBidirectional && eventsRegistered)
             {
-                this.GrabHandle.Cursor = this.IsBidirectional ? Cursors.Hand : Cursors.None;
-                this.GrabHandle.MouseEnter -= new MouseEventHandler(this.BidirectionalDashboard_MouseEnter);
-                this.GrabHandle.MouseLeave -= new MouseEventHandler(this.GrabHandle_MouseLeave);
-                this.GrabHandle.MouseLeftButtonUp -= new MouseButtonEventHandler(this.BidirectionalDashboard_MouseLeftButtonUp);
-                this.GrabHandle.MouseLeftButtonDown -= new MouseButtonEventHandler(this.Target_MouseLeftButtonDown);
-                this.GrabHandle.MouseMove -= new MouseEventHandler(this.GrabHandle_MouseMove);
-                this.eventsRegistered = false;
+                GrabHandle.Cursor = IsBidirectional ? Cursors.Hand : Cursors.None;
+                GrabHandle.MouseEnter -= new MouseEventHandler(BidirectionalDashboard_MouseEnter);
+                GrabHandle.MouseLeave -= new MouseEventHandler(GrabHandle_MouseLeave);
+                GrabHandle.MouseLeftButtonUp -= new MouseButtonEventHandler(BidirectionalDashboard_MouseLeftButtonUp);
+                GrabHandle.MouseLeftButtonDown -= new MouseButtonEventHandler(Target_MouseLeftButtonDown);
+                GrabHandle.MouseMove -= new MouseEventHandler(GrabHandle_MouseMove);
+                eventsRegistered = false;
             }
         }
 

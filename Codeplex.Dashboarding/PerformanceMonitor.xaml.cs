@@ -102,16 +102,16 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public PerformanceMonitor()
         {
-            this.InitializeComponent();
-            this.GraphLine = Colors.Cyan;
-            this.GridLine = Colors.White;
-            this.Axis = Colors.Green;
-            this.ValueTextColor = Colors.Green;
-            this.GraphFillTo = Colors.Gray;
-            this.GraphFillFrom = Colors.DarkGray;
+            InitializeComponent();
+            GraphLine = Colors.Cyan;
+            GridLine = Colors.White;
+            Axis = Colors.Green;
+            ValueTextColor = Colors.Green;
+            GraphFillTo = Colors.Gray;
+            GraphFillFrom = Colors.DarkGray;
 
-            SizeChanged += new SizeChangedEventHandler(this.PerformanceMonitor_SizeChanged);
-            Loaded += new RoutedEventHandler(this.PerformanceMonitor_Loaded);
+            SizeChanged += new SizeChangedEventHandler(PerformanceMonitor_SizeChanged);
+            Loaded += new RoutedEventHandler(PerformanceMonitor_Loaded);
         }
 
         #endregion Constructors
@@ -123,8 +123,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public Color Axis
         {
-            get { return (Color)GetValue(AxisProperty); }
-            set { SetValue(AxisProperty, value); }
+            get => (Color)GetValue(AxisProperty);
+            set => SetValue(AxisProperty, value);
         }
 
         /// <summary>
@@ -132,8 +132,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public Color GraphFillFrom
         {
-            get { return (Color)GetValue(GraphFillFromProperty); }
-            set { SetValue(GraphFillFromProperty, value); }
+            get => (Color)GetValue(GraphFillFromProperty);
+            set => SetValue(GraphFillFromProperty, value);
         }
 
         /// <summary>
@@ -141,8 +141,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public Color GraphFillTo
         {
-            get { return (Color)GetValue(GraphFillToProperty); }
-            set { SetValue(GraphFillToProperty, value); }
+            get => (Color)GetValue(GraphFillToProperty);
+            set => SetValue(GraphFillToProperty, value);
         }
 
         /// <summary>
@@ -150,8 +150,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public Color GraphLine
         {
-            get { return (Color)GetValue(GraphLineProperty); }
-            set { SetValue(GraphLineProperty, value); }
+            get => (Color)GetValue(GraphLineProperty);
+            set => SetValue(GraphLineProperty, value);
         }
 
         /// <summary>
@@ -160,15 +160,9 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "GridLine", Justification = "This is the correct casing")]
         public Color GridLine
         {
-            get
-            {
-                return (Color)GetValue(GridLineProperty);
-            }
+            get => (Color)GetValue(GridLineProperty);
 
-            set
-            {
-                SetValue(GridLineProperty, value);
-            }
+            set => SetValue(GridLineProperty, value);
         }
 
         /// <summary>
@@ -178,8 +172,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Bound to XAML")]
         public List<double> HistoricalValues
         {
-            get { return (List<double>)GetValue(HistoricalValuesProperty); }
-            set { SetValue(HistoricalValuesProperty, value); }
+            get => (List<double>)GetValue(HistoricalValuesProperty);
+            set => SetValue(HistoricalValuesProperty, value);
         }
 
         /// <summary>
@@ -187,10 +181,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         /// <summary>
         /// Gets or sets a value indicating whether the grid needs to redraw
@@ -209,10 +200,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void Animate()
         {
-            this.UpdateColours();
-            this.StoreValue();
-            this.DrawLine();
-            this.UpdateMinMxValues();
+            UpdateColours();
+            StoreValue();
+            DrawLine();
+            UpdateMinMxValues();
         }
 
         /// <summary>
@@ -222,17 +213,17 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateAxisColor();
-            this.UpdateColours();
-            this.UpdateGraphFill();
-            this.UpdateGraphLineColors();
-            this.UpdateGridLineColor();
-            this.UpdateHistoricalValues();
-            this.UpdateMinMxValues();
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateAxisColor();
+            UpdateColours();
+            UpdateGraphFill();
+            UpdateGraphLineColors();
+            UpdateGridLineColor();
+            UpdateHistoricalValues();
+            UpdateMinMxValues();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -278,8 +269,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">old value and new value</param>
         private static void AxisChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            PerformanceMonitor instance = dependancy as PerformanceMonitor;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is PerformanceMonitor instance && instance.DashboardLoaded)
             {
                 instance.UpdateAxisColor();
             }
@@ -293,8 +283,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">old value and new value</param>
         private static void GraphFillFromChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            PerformanceMonitor instance = dependancy as PerformanceMonitor;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is PerformanceMonitor instance && instance.DashboardLoaded)
             {
                 instance.UpdateGraphFill();
             }
@@ -308,8 +297,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">old value and new value</param>
         private static void GraphFillToChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            PerformanceMonitor instance = dependancy as PerformanceMonitor;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is PerformanceMonitor instance && instance.DashboardLoaded)
             {
                 instance.UpdateGraphFill();
             }
@@ -324,8 +312,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void GraphLineColorChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            PerformanceMonitor instance = dependancy as PerformanceMonitor;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is PerformanceMonitor instance && instance.DashboardLoaded)
             {
                 instance.UpdateGraphLineColors();
             }
@@ -340,8 +327,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void GridLineColorChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            PerformanceMonitor instance = dependancy as PerformanceMonitor;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is PerformanceMonitor instance && instance.DashboardLoaded)
             {
                 instance.GridRedrawRequired = true;
                 instance.UpdateGridLineColor();
@@ -355,8 +341,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">old value and new value</param>
         private static void HistoricalValuesChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            PerformanceMonitor instance = dependancy as PerformanceMonitor;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is PerformanceMonitor instance && instance.DashboardLoaded)
             {
                 instance.UpdateHistoricalValues();
             }
@@ -369,53 +354,53 @@ namespace Codeplex.Dashboarding
         {
             var normalised = new List<double>();
 
-            double ch = _canvas.ActualHeight;
-            double cw = _canvas.ActualWidth;
+            var ch = _canvas.ActualHeight;
+            var cw = _canvas.ActualWidth;
 
             // if the line is from 0 to 99 in one pixel then back to 0 again the
             // path over extends and escapes the canvas, we clip to prevent this
             _canvas.Clip = new RectangleGeometry { Rect = new Rect(0, 0, cw, ch) };
 
-            double max = this.values.Max();
-            double min = this.values.Min();
-            if (max > this.historicalMax)
+            var max = values.Max();
+            var min = values.Min();
+            if (max > historicalMax)
             {
-                this.historicalMax = (int)max;
+                historicalMax = (int)max;
             }
 
-            if (min < this.historicalMin)
+            if (min < historicalMin)
             {
-                this.historicalMin = (int)min;
+                historicalMin = (int)min;
             }
 
-            foreach (int val in this.values)
+            foreach (int val in values)
             {
-                if (this.historicalMax == 0)
+                if (historicalMax == 0)
                 {
                     normalised.Add(0);
                 }
                 else
                 {
-                    normalised.Add(((double)val) / this.historicalMax);
+                    normalised.Add(((double)val) / historicalMax);
                 }
             }
 
-            double startPoint = cw - this.values.Count;
+            var startPoint = cw - values.Count;
 
-            PathGeometry pg = new PathGeometry();
+            var pg = new PathGeometry();
             pg.FillRule = FillRule.Nonzero;
             pg.Figures = new PathFigureCollection();
-            PathFigure pf = new PathFigure();
+            var pf = new PathFigure();
             pf.IsClosed = true;
 
             pf.StartPoint = new Point(startPoint, ch);
             pf.Segments = new PathSegmentCollection();
 
-            int idx = 0;
+            var idx = 0;
 
-            for (int i = (int)startPoint; i < cw; i++)
+            for (var i = (int)startPoint; i < cw; i++)
             {
-                double y = ch - (normalised[idx] * ch);
+                var y = ch - (normalised[idx] * ch);
 
                 pf.Segments.Add(new LineSegment { Point = new Point(i + 1, y) });
                 idx++;
@@ -436,7 +421,7 @@ namespace Codeplex.Dashboarding
         private void DrawLines(int spacing, int maxSpacing)
         {
             double lineY = 0;
-            double remainder = _canvas.ActualHeight % maxSpacing;
+            var remainder = _canvas.ActualHeight % maxSpacing;
             if (remainder > 0)
             {
                 lineY = -(remainder / 2);
@@ -444,11 +429,11 @@ namespace Codeplex.Dashboarding
 
             while (lineY <= _canvas.ActualHeight)
             {
-                Line l = new Line { X1 = 0, Y1 = lineY, X2 = _canvas.ActualWidth, Y2 = lineY, Opacity = 0.15, Stroke = new SolidColorBrush(this.GridLine) };
+                var l = new Line { X1 = 0, Y1 = lineY, X2 = _canvas.ActualWidth, Y2 = lineY, Opacity = 0.15, Stroke = new SolidColorBrush(GridLine) };
                 _canvas.Children.Add(l);
                 lineY += spacing;
-                this.lines.Add(l);
-                Canvas.SetZIndex(l, 0);
+                lines.Add(l);
+                Panel.SetZIndex(l, 0);
             }
 
             double lineX = 0;
@@ -460,11 +445,11 @@ namespace Codeplex.Dashboarding
 
             while (lineX <= _canvas.ActualWidth)
             {
-                Line l = new Line { X1 = lineX, Y1 = 0, X2 = lineX, Y2 = _canvas.ActualHeight, Opacity = 0.15, Stroke = new SolidColorBrush(this.GridLine) };
+                var l = new Line { X1 = lineX, Y1 = 0, X2 = lineX, Y2 = _canvas.ActualHeight, Opacity = 0.15, Stroke = new SolidColorBrush(GridLine) };
                 _canvas.Children.Add(l);
                 lineX += spacing;
-                this.lines.Add(l);
-                Canvas.SetZIndex(l, 0);
+                lines.Add(l);
+                Panel.SetZIndex(l, 0);
             }
         }
 
@@ -475,10 +460,10 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void PerformanceMonitor_Loaded(object sender, RoutedEventArgs e)
         {
-            this.UpdateColours();
-            this.StoreValue();
-            this.DrawLine();
-            this.UpdateMinMxValues();
+            UpdateColours();
+            StoreValue();
+            DrawLine();
+            UpdateMinMxValues();
         }
 
         /// <summary>
@@ -488,8 +473,8 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.SizeChangedEventArgs"/> instance containing the event data.</param>
         private void PerformanceMonitor_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.GridRedrawRequired = true;
-            this.UpdateColours();
+            GridRedrawRequired = true;
+            UpdateColours();
         }
 
         /// <summary>
@@ -497,12 +482,12 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void StoreValue()
         {
-            if (this.values.Count > 0 && this.values.Count == _canvas.ActualWidth)
+            if (values.Count > 0 && values.Count == _canvas.ActualWidth)
             {
-                this.values.RemoveAt(0);
+                values.RemoveAt(0);
             }
 
-            this.values.Insert(this.values.Count, Value);
+            values.Insert(values.Count, Value);
         }
 
         /// <summary>
@@ -510,8 +495,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateAxisColor()
         {
-            _vertAxis.Stroke = new SolidColorBrush(this.Axis);
-            _horAxis.Stroke = new SolidColorBrush(this.Axis);
+            _vertAxis.Stroke = new SolidColorBrush(Axis);
+            _horAxis.Stroke = new SolidColorBrush(Axis);
         }
 
         /// <summary>
@@ -519,11 +504,11 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateColours()
         {
-            this.UpdateGridLineColor();
-            this.UpdateGraphLineColors();
-            this.UpdateTextColor();
-            this.UpdateAxisColor();
-            this.UpdateGraphFill();
+            UpdateGridLineColor();
+            UpdateGraphLineColors();
+            UpdateTextColor();
+            UpdateAxisColor();
+            UpdateGraphFill();
         }
 
         /// <summary>
@@ -531,8 +516,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateGraphFill()
         {
-            rangeHighColour0.Color = this.GraphFillFrom;
-            rangeLowColour0.Color = this.GraphFillTo;
+            rangeHighColour0.Color = GraphFillFrom;
+            rangeLowColour0.Color = GraphFillTo;
         }
 
         /// <summary>
@@ -540,7 +525,7 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateGraphLineColors()
         {
-            _path.Stroke = new SolidColorBrush(this.GraphLine);
+            _path.Stroke = new SolidColorBrush(GraphLine);
         }
 
         /// <summary>
@@ -548,26 +533,26 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateGridLineColor()
         {
-            if (!this.GridRedrawRequired || _canvas.ActualHeight == 0 || _canvas.ActualHeight == 0)
+            if (!GridRedrawRequired || _canvas.ActualHeight == 0 || _canvas.ActualHeight == 0)
             {
                 return;
             }
 
-            if (this.lines.Count > 0)
+            if (lines.Count > 0)
             {
-                foreach (Line line in this.lines)
+                foreach (var line in lines)
                 {
                     _canvas.Children.Remove(line);
                 }
 
-                this.lines.Clear();
+                lines.Clear();
             }
 
-            this.DrawLines(10, 100);
-            this.DrawLines(50, 100);
-            this.DrawLines(100, 100);
-            Canvas.SetZIndex(_path, 1000);
-            this.GridRedrawRequired = false;
+            DrawLines(10, 100);
+            DrawLines(50, 100);
+            DrawLines(100, 100);
+            Panel.SetZIndex(_path, 1000);
+            GridRedrawRequired = false;
         }
 
         /// <summary>
@@ -575,9 +560,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateHistoricalValues()
         {
-            if (this.HistoricalValues != null && this.HistoricalValues.Count > 0)
+            if (HistoricalValues != null && HistoricalValues.Count > 0)
             {
-                this.values.AddRange(this.HistoricalValues);
+                values.AddRange(HistoricalValues);
             }
         }
 
@@ -586,8 +571,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void UpdateMinMxValues()
         {
-            this._lowWaterMark.Text = this.historicalMin.ToString();
-            this._highWaterMark.Text = this.historicalMax.ToString();
+            _lowWaterMark.Text = historicalMin.ToString();
+            _highWaterMark.Text = historicalMax.ToString();
         }
 
         #endregion Methods

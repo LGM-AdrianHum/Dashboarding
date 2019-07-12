@@ -59,13 +59,13 @@ namespace Demos.Common.Util
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             OnColorSelected(_picker.SelectedColor.Color);
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
             if (ColorChangedEvent != null)
             {
                 ColorChangedEvent -= _lastMethod;
@@ -97,7 +97,7 @@ namespace Demos.Common.Util
 
         public void Show()
         {
-            this.Visibility = Visibility.Visible;
+            Visibility = Visibility.Visible;
         }
     }
 }

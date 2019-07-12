@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.ComponentModel;
 using System.Collections.ObjectModel;
 
 namespace WpfGauge
@@ -176,7 +166,7 @@ namespace WpfGauge
         /// 
         /// </summary>
         public static DependencyProperty LightVisibilityProperty =
-            DependencyProperty.Register("LightVisibility", typeof(Visibility), typeof(Gauge), new PropertyMetadata(System.Windows.Visibility.Visible));
+            DependencyProperty.Register("LightVisibility", typeof(Visibility), typeof(Gauge), new PropertyMetadata(Visibility.Visible));
 
         /// <summary>
         /// 
@@ -311,8 +301,8 @@ namespace WpfGauge
         /// </summary>
         public bool AutoScale
         {
-            get { return (bool)base.GetValue(AutoScaleProperty); }
-            set { base.SetValue(AutoScaleProperty, value); }
+            get => (bool)GetValue(AutoScaleProperty);
+            set => SetValue(AutoScaleProperty, value);
         }
 
         /// <summary>
@@ -320,8 +310,8 @@ namespace WpfGauge
         /// </summary>
         public Style TickLabelStyle
         {
-            get { return (Style)base.GetValue(TickLabelStyleProperty); }
-            set { base.SetValue(TickLabelStyleProperty, value); }
+            get => (Style)GetValue(TickLabelStyleProperty);
+            set => SetValue(TickLabelStyleProperty, value);
         }
 
         /// <summary>
@@ -329,8 +319,8 @@ namespace WpfGauge
         /// </summary>
         public Thickness LineMargin
         {
-            get { return (Thickness)base.GetValue(LineMarginProperty); }
-            set { base.SetValue(LineMarginProperty, value); }
+            get => (Thickness)GetValue(LineMarginProperty);
+            set => SetValue(LineMarginProperty, value);
         }
 
         /// <summary>
@@ -338,8 +328,8 @@ namespace WpfGauge
         /// </summary>
         public Thickness LabelMargin
         {
-            get { return (Thickness)base.GetValue(LabelMarginProperty); }
-            set { base.SetValue(LabelMarginProperty, value); }
+            get => (Thickness)GetValue(LabelMarginProperty);
+            set => SetValue(LabelMarginProperty, value);
         }
 
         /// <summary>
@@ -347,8 +337,8 @@ namespace WpfGauge
         /// </summary>
         public Brush InnerEllipseStroke
         {
-            get { return (Brush)base.GetValue(InnerEllipseStrokeProperty); }
-            set { base.SetValue(InnerEllipseStrokeProperty, value); }
+            get => (Brush)GetValue(InnerEllipseStrokeProperty);
+            set => SetValue(InnerEllipseStrokeProperty, value);
         }
 
         /// <summary>
@@ -356,8 +346,8 @@ namespace WpfGauge
         /// </summary>
         public Brush MajorTickMarkColor
         {
-            get { return (Brush)base.GetValue(MajorTickMarkColorProperty); }
-            set { base.SetValue(MajorTickMarkColorProperty, value); }
+            get => (Brush)GetValue(MajorTickMarkColorProperty);
+            set => SetValue(MajorTickMarkColorProperty, value);
         }
 
         /// <summary>
@@ -365,8 +355,8 @@ namespace WpfGauge
         /// </summary>
         public Brush MinorTickMarkColor
         {
-            get { return (Brush)base.GetValue(MinorTickMarkColorProperty); }
-            set { base.SetValue(MinorTickMarkColorProperty, value); }
+            get => (Brush)GetValue(MinorTickMarkColorProperty);
+            set => SetValue(MinorTickMarkColorProperty, value);
         }
 
         /// <summary>
@@ -374,8 +364,8 @@ namespace WpfGauge
         /// </summary>
         public Brush OuterEllipseStroke
         {
-            get { return (Brush)base.GetValue(OuterEllipseStrokeProperty); }
-            set { base.SetValue(OuterEllipseStrokeProperty, value); }
+            get => (Brush)GetValue(OuterEllipseStrokeProperty);
+            set => SetValue(OuterEllipseStrokeProperty, value);
         }
 
         /// <summary>
@@ -383,8 +373,8 @@ namespace WpfGauge
         /// </summary>
         public Brush InnerEllipseFill
         {
-            get { return (Brush)base.GetValue(InnerEllipseFillProperty); }
-            set { base.SetValue(InnerEllipseFillProperty, value); }
+            get => (Brush)GetValue(InnerEllipseFillProperty);
+            set => SetValue(InnerEllipseFillProperty, value);
         }
 
         /// <summary>
@@ -392,8 +382,8 @@ namespace WpfGauge
         /// </summary>
         public Brush OuterEllipseFill
         {
-            get { return (Brush)base.GetValue(OuterEllipseFillProperty); }
-            set { base.SetValue(OuterEllipseFillProperty, value); }
+            get => (Brush)GetValue(OuterEllipseFillProperty);
+            set => SetValue(OuterEllipseFillProperty, value);
         }
 
         /// <summary>
@@ -401,8 +391,8 @@ namespace WpfGauge
         /// </summary>
         public double Value
         {
-            get { return (double)base.GetValue(ValueProperty); }
-            set { base.SetValue(ValueProperty, value); }
+            get => (double)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
         /// <summary>
@@ -410,8 +400,8 @@ namespace WpfGauge
         /// </summary>
         public Style ValueTextStyle
         {
-            get { return (Style)base.GetValue(ValueTextStyleProperty); }
-            set { base.SetValue(ValueTextStyleProperty, value); }
+            get => (Style)GetValue(ValueTextStyleProperty);
+            set => SetValue(ValueTextStyleProperty, value);
         }
 
         /// <summary>
@@ -419,8 +409,8 @@ namespace WpfGauge
         /// </summary>
         public double MaxValue
         {
-            get { return (double)base.GetValue(MaxValueProperty); }
-            set { base.SetValue(MaxValueProperty, value); }
+            get => (double)GetValue(MaxValueProperty);
+            set => SetValue(MaxValueProperty, value);
         }
 
         /// <summary>
@@ -428,8 +418,8 @@ namespace WpfGauge
         /// </summary>
         public double MinValue
         {
-            get { return (double)base.GetValue(MinValueProperty); }
-            set { base.SetValue(MinValueProperty, value); }
+            get => (double)GetValue(MinValueProperty);
+            set => SetValue(MinValueProperty, value);
         }
 
         /// <summary>
@@ -437,8 +427,8 @@ namespace WpfGauge
         /// </summary>
         public Thickness ValueTextMargin
         {
-            get { return (Thickness)base.GetValue(ValueTextMarginProperty); }
-            set { base.SetValue(ValueTextMarginProperty, value); }
+            get => (Thickness)GetValue(ValueTextMarginProperty);
+            set => SetValue(ValueTextMarginProperty, value);
         }
 
         /// <summary>
@@ -446,8 +436,8 @@ namespace WpfGauge
         /// </summary>
         public object NeedleTooltip
         {
-            get { return (object)base.GetValue(NeedleTooltipProperty); }
-            set { base.SetValue(NeedleTooltipProperty, value); }
+            get => (object)GetValue(NeedleTooltipProperty);
+            set => SetValue(NeedleTooltipProperty, value);
         }
 
         /// <summary>
@@ -455,8 +445,8 @@ namespace WpfGauge
         /// </summary>
         public bool IsNeedleTooltipEnabled
         {
-            get { return (bool)base.GetValue(IsNeedleTooltipEnabledProperty); }
-            set { base.SetValue(IsNeedleTooltipEnabledProperty, value); }
+            get => (bool)GetValue(IsNeedleTooltipEnabledProperty);
+            set => SetValue(IsNeedleTooltipEnabledProperty, value);
         }
 
         /// <summary>
@@ -464,8 +454,8 @@ namespace WpfGauge
         /// </summary>
         public Visibility LightVisibility
         {
-            get { return (Visibility)base.GetValue(LightVisibilityProperty); }
-            set { base.SetValue(LightVisibilityProperty, value); }
+            get => (Visibility)GetValue(LightVisibilityProperty);
+            set => SetValue(LightVisibilityProperty, value);
         }
 
         /// <summary>
@@ -473,8 +463,8 @@ namespace WpfGauge
         /// </summary>
         public Grid ControlGrid
         {
-            get { return (Grid)base.GetValue(ControlGridProperty); }
-            set { base.SetValue(ControlGridProperty, value); }
+            get => (Grid)GetValue(ControlGridProperty);
+            set => SetValue(ControlGridProperty, value);
         }
 
         /// <summary>
@@ -482,8 +472,8 @@ namespace WpfGauge
         /// </summary>
         public string ValueFormat
         {
-            get { return (string)base.GetValue(ValueFormatProperty); }
-            set { base.SetValue(ValueFormatProperty, value); }
+            get => (string)GetValue(ValueFormatProperty);
+            set => SetValue(ValueFormatProperty, value);
         }
 
         /// <summary>
@@ -491,8 +481,8 @@ namespace WpfGauge
         /// </summary>
         public ObservableCollection<TickMarker> MajorTickMarks
         {
-            get { return (ObservableCollection<TickMarker>)base.GetValue(MajorTickMarksProperty); }
-            set { base.SetValue(MajorTickMarksProperty, value); }
+            get => (ObservableCollection<TickMarker>)GetValue(MajorTickMarksProperty);
+            set => SetValue(MajorTickMarksProperty, value);
         }
 
         /// <summary>
@@ -500,8 +490,8 @@ namespace WpfGauge
         /// </summary>
         public ObservableCollection<TickMarker> MinorTickMarks
         {
-            get { return (ObservableCollection<TickMarker>)base.GetValue(MinorTickMarksProperty); }
-            set { base.SetValue(MinorTickMarksProperty, value); }
+            get => (ObservableCollection<TickMarker>)GetValue(MinorTickMarksProperty);
+            set => SetValue(MinorTickMarksProperty, value);
         }
 
         /// <summary>
@@ -509,8 +499,8 @@ namespace WpfGauge
         /// </summary>
         public int MajorTickCount
         {
-            get { return (int)base.GetValue(MajorTickCountProperty); }
-            set { base.SetValue(MajorTickCountProperty, value); }
+            get => (int)GetValue(MajorTickCountProperty);
+            set => SetValue(MajorTickCountProperty, value);
         }
 
         /// <summary>
@@ -518,8 +508,8 @@ namespace WpfGauge
         /// </summary>
         public int MinorTickCount
         {
-            get { return (int)base.GetValue(MinorTickCountProperty); }
-            set { base.SetValue(MinorTickCountProperty, value); }
+            get => (int)GetValue(MinorTickCountProperty);
+            set => SetValue(MinorTickCountProperty, value);
         }
 
         /// <summary>
@@ -527,8 +517,8 @@ namespace WpfGauge
         /// </summary>
         public ObservableCollection<GoalMarker> GoalMarkers
         {
-            get { return (ObservableCollection<GoalMarker>)base.GetValue(GoalMarkersProperty); }
-            set { base.SetValue(GoalMarkersProperty, value); }
+            get => (ObservableCollection<GoalMarker>)GetValue(GoalMarkersProperty);
+            set => SetValue(GoalMarkersProperty, value);
         }
 
         /// <summary>
@@ -536,8 +526,8 @@ namespace WpfGauge
         /// </summary>
         public double StartAngle
         {
-            get { return (double)base.GetValue(StartAngleProperty); }
-            set { base.SetValue(StartAngleProperty, value); }
+            get => (double)GetValue(StartAngleProperty);
+            set => SetValue(StartAngleProperty, value);
         }
 
         /// <summary>
@@ -545,8 +535,8 @@ namespace WpfGauge
         /// </summary>
         public double EndAngle
         {
-            get { return (double)base.GetValue(EndAngleProperty); }
-            set { base.SetValue(EndAngleProperty, value); }
+            get => (double)GetValue(EndAngleProperty);
+            set => SetValue(EndAngleProperty, value);
         }
 
         #endregion Public Vars
@@ -557,32 +547,32 @@ namespace WpfGauge
         public Gauge()
         {
             // Setup events
-            this.SizeChanged += (s, e) => { GenerateNeedlePoints(); };
+            SizeChanged += (s, e) => { GenerateNeedlePoints(); };
 
             InitializeComponent();
 
             // Add events
-            this.Loaded += new RoutedEventHandler(Gauge_Loaded);
-            if (this.GoalMarkers != null)
-                this.GoalMarkers.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(GoalMarkers_CollectionChanged);
+            Loaded += new RoutedEventHandler(Gauge_Loaded);
+            if (GoalMarkers != null)
+                GoalMarkers.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(GoalMarkers_CollectionChanged);
         }
 
         private void Gauge_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateAngle();
 
-            if (this.ValueTextStyle == null)
-                this.SetValueTextDefaultStyle();
+            if (ValueTextStyle == null)
+                SetValueTextDefaultStyle();
         }
 
         private void GenerateNeedlePoints()
         {
-            double h = this.Height;
-            double w = this.Width;
-            double a = (3.5d / 300d) * h;
-            double b = (90d / 300d) * w;
-            double c = (1.75d / 300d) * h;
-            double d = (95d / 300d) * w;
+            var h = Height;
+            var w = Width;
+            var a = (3.5d / 300d) * h;
+            var b = (90d / 300d) * w;
+            var c = (1.75d / 300d) * h;
+            var d = (95d / 300d) * w;
 
             var points = new PointCollection();
             points.Add(new Point(a, a));
@@ -599,9 +589,9 @@ namespace WpfGauge
                 foreach (GoalMarker gm in e.NewItems)
                 {
                     gm.ParentGauge = this;
-                    gm.GaugeMax = this.MaxValue;
-                    gm.GaugeStartAngle = this.StartAngle;
-                    gm.GaugeEndAngle = this.EndAngle;
+                    gm.GaugeMax = MaxValue;
+                    gm.GaugeStartAngle = StartAngle;
+                    gm.GaugeEndAngle = EndAngle;
                     if (gm.Parent is Grid)
                         ((Grid)gm.Parent).Children.Remove(gm);
                     GoalMarkerLayout.Children.Add(gm);
@@ -617,62 +607,62 @@ namespace WpfGauge
             // There are no specified Major Tick Markers so auto-create them
             // The default number of  Major Tick Markers is 11 (0 - 10)
             // The total degrees of the scale
-            var totalDegrees = this.EndAngle - this.StartAngle;
-            var degreeIncrement = totalDegrees / (this.MajorTickCount);
-            var labelIncrement = (this.MaxValue - this.MinValue) / (this.MajorTickCount);
-            var smallDegreeIncrement = degreeIncrement / (this.MinorTickCount + 1);
+            var totalDegrees = EndAngle - StartAngle;
+            var degreeIncrement = totalDegrees / (MajorTickCount);
+            var labelIncrement = (MaxValue - MinValue) / (MajorTickCount);
+            var smallDegreeIncrement = degreeIncrement / (MinorTickCount + 1);
 
-            this.MajorTickMarks = new ObservableCollection<TickMarker>();
+            MajorTickMarks = new ObservableCollection<TickMarker>();
             
-            for (int i = 0; i <= this.MajorTickCount; i++)
+            for (var i = 0; i <= MajorTickCount; i++)
             {
-                TickMarker majorTick = new TickMarker();
+                var majorTick = new TickMarker();
 
                 majorTick.StrokeThickness = 8;
                 majorTick.LineHeight = 10;
-                Canvas.SetZIndex(majorTick, 1);
-                if (this.AutoScale)
+                Panel.SetZIndex(majorTick, 1);
+                if (AutoScale)
                 {
-                    majorTick.Angle = (i * degreeIncrement) + this.StartAngle;
+                    majorTick.Angle = (i * degreeIncrement) + StartAngle;
                     majorTick.Label = (i * labelIncrement).ToString();
                 }
                 else
                 {
-                    majorTick.Angle = (i * degreeIncrement) + this.StartAngle;
-                    majorTick.Label = ((i * labelIncrement) + this.MinValue).ToString();
+                    majorTick.Angle = (i * degreeIncrement) + StartAngle;
+                    majorTick.Label = ((i * labelIncrement) + MinValue).ToString();
                 }
-                this.MajorTickMarks.Add(majorTick);
+                MajorTickMarks.Add(majorTick);
                 DynamicLayout.Children.Add(majorTick);
 
-                majorTick.TickMarkColor = this.MajorTickMarkColor;
-                majorTick.LineMargin = this.LineMargin;
-                majorTick.LabelMargin = this.LabelMargin;
+                majorTick.TickMarkColor = MajorTickMarkColor;
+                majorTick.LineMargin = LineMargin;
+                majorTick.LabelMargin = LabelMargin;
 
-                if (this.TickLabelStyle != null)
+                if (TickLabelStyle != null)
                 {
-                    majorTick.TickLabelStyle = this.TickLabelStyle;
+                    majorTick.TickLabelStyle = TickLabelStyle;
                 }
             }
 
-            this.MinorTickMarks = new ObservableCollection<TickMarker>();
+            MinorTickMarks = new ObservableCollection<TickMarker>();
 
-            foreach (var majorTick in this.MajorTickMarks)
+            foreach (var majorTick in MajorTickMarks)
             {
-                if (this.MajorTickMarks.IndexOf(majorTick) < this.MajorTickMarks.Count - 1)
+                if (MajorTickMarks.IndexOf(majorTick) < MajorTickMarks.Count - 1)
                 {
-                    for (int i = 0; i <= this.MinorTickCount; i++)
+                    for (var i = 0; i <= MinorTickCount; i++)
                     {
-                        TickMarker minorTick = new TickMarker();
+                        var minorTick = new TickMarker();
                         minorTick.StrokeThickness = 4;
                         minorTick.LineHeight = 5;
-                        Canvas.SetZIndex(minorTick, 0);
+                        Panel.SetZIndex(minorTick, 0);
                         minorTick.Angle = (i * smallDegreeIncrement) + smallDegreeIncrement + majorTick.Angle;
-                        this.MinorTickMarks.Add(minorTick);
+                        MinorTickMarks.Add(minorTick);
                         DynamicLayout.Children.Add(minorTick);
 
-                        minorTick.TickMarkColor = this.MinorTickMarkColor;
-                        minorTick.LineMargin = this.LineMargin;
-                        minorTick.LabelMargin = this.LabelMargin;
+                        minorTick.TickMarkColor = MinorTickMarkColor;
+                        minorTick.LineMargin = LineMargin;
+                        minorTick.LabelMargin = LabelMargin;
                     }
                 }
             }
@@ -680,29 +670,29 @@ namespace WpfGauge
 
         internal void UpdateAngle()
         {
-            if (this.Value == double.NegativeInfinity)
+            if (Value == double.NegativeInfinity)
             {
                 NeedleRotateTransform.Angle = StartAngle - 10;
                 NeedleDropShadowEffect.Direction = StartAngle - 10;
                 DrawElements();
                 return;
             }
-            Needle.Visibility = System.Windows.Visibility.Visible;
+            Needle.Visibility = Visibility.Visible;
 
-            if (this.AutoScale)
+            if (AutoScale)
             {
                 var v = GetGreatestValue();
-                this.MaxValue = v.GetGaugeTop();
-                this.MinValue = 0;
+                MaxValue = v.GetGaugeTop();
+                MinValue = 0;
             }
 
-            double valueInPercent = this.Value / this.MaxValue;
-            if (this.AutoScale)
-                valueInPercent = this.Value / this.MaxValue;
+            var valueInPercent = Value / MaxValue;
+            if (AutoScale)
+                valueInPercent = Value / MaxValue;
             else
-                valueInPercent = (this.Value - this.MinValue) / (this.MaxValue - this.MinValue);
+                valueInPercent = (Value - MinValue) / (MaxValue - MinValue);
 
-            var valueInDegrees = valueInPercent * (this.EndAngle - this.StartAngle) + this.StartAngle;
+            var valueInDegrees = valueInPercent * (EndAngle - StartAngle) + StartAngle;
 
             NeedleRotateTransform.Angle = valueInDegrees;
             NeedleDropShadowEffect.Direction = valueInDegrees;
@@ -726,10 +716,10 @@ namespace WpfGauge
         // compare all gauge markers and the gauge value to determine the greatest number
         private double GetGreatestValue()
         {
-            if (this.GoalMarkers != null && this.GoalMarkers.Count > 0)
+            if (GoalMarkers != null && GoalMarkers.Count > 0)
             {
-                double greatest = this.Value;
-                foreach (var goal in this.GoalMarkers.ToList())
+                var greatest = Value;
+                foreach (var goal in GoalMarkers.ToList())
                 {
                     if (goal.Value > greatest)
                         greatest = goal.Value;
@@ -737,21 +727,21 @@ namespace WpfGauge
                 return greatest;
             }
             else
-                return this.Value;
+                return Value;
         }
 
         internal void SetValueTextDefaultStyle()
         {
-            this.ValueText.Style = Defaults.DefaultValueTextStyle;
+            ValueText.Style = Defaults.DefaultValueTextStyle;
             // Set up the default margin binding
-            Binding b = new Binding("Height");
+            var b = new Binding("Height");
             b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             var relSource = new RelativeSource();
             relSource.Mode = RelativeSourceMode.FindAncestor;
             relSource.AncestorType = typeof(Gauge);
             b.RelativeSource = relSource;
-            b.Converter = new WpfGauge.Converters.ValueTextMarginConverter();
-            this.ValueText.SetBinding(TextBlock.MarginProperty, b);
+            b.Converter = new Converters.ValueTextMarginConverter();
+            ValueText.SetBinding(MarginProperty, b);
         }
     }
 }

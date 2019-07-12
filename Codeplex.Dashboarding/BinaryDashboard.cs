@@ -17,7 +17,6 @@
 //-----------------------------------------------------------------------
 namespace Codeplex.Dashboarding
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
     using System.Windows.Media;
@@ -64,7 +63,7 @@ namespace Codeplex.Dashboarding
         {
             SetValue(TrueColorProperty, new ColorPoint { HiColor = Color.FromArgb(0xFF, 0x6C, 0xFA, 0x20), LowColor = Color.FromArgb(0xFF, 0xDC, 0xF9, 0xD4) });
             SetValue(FalseColorProperty, new ColorPoint { HiColor = Color.FromArgb(0xFF, 0xFA, 0x65, 0x65), LowColor = Color.FromArgb(0xFF, 0xFC, 0xD5, 0xD5) });
-            PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.PropertyHasChanged);
+            PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(PropertyHasChanged);
         }
 
         #endregion Constructors
@@ -80,14 +79,11 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPoint res = (ColorPoint)GetValue(FalseColorProperty);
+                var res = (ColorPoint)GetValue(FalseColorProperty);
                 return res;
             }
 
-            set
-            {
-                SetValue(FalseColorProperty, value);
-            }
+            set => SetValue(FalseColorProperty, value);
         }
 
         /// <summary>
@@ -98,14 +94,11 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                bool res = (bool)GetValue(IsTrueProperty);
+                var res = (bool)GetValue(IsTrueProperty);
                 return res;
             }
 
-            set
-            {
-                SetValue(IsTrueProperty, value);
-            }
+            set => SetValue(IsTrueProperty, value);
         }
 
         /// <summary>
@@ -119,14 +112,11 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                ColorPoint res = (ColorPoint)GetValue(TrueColorProperty);
+                var res = (ColorPoint)GetValue(TrueColorProperty);
                 return res;
             }
 
-            set
-            {
-                SetValue(TrueColorProperty, value);
-            }
+            set => SetValue(TrueColorProperty, value);
         }
 
         #endregion Properties
@@ -140,10 +130,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.UpdateTextColor();
-            this.UpdateTextFormat();
-            this.UpdateTextVisibility();
-            this.UpdateFontStyle();
+            UpdateTextColor();
+            UpdateTextFormat();
+            UpdateTextVisibility();
+            UpdateFontStyle();
         }
 
         /// <summary>
@@ -157,8 +147,8 @@ namespace Codeplex.Dashboarding
         {
             if (trueControl != null || falseControl != null || sb != null)
             {
-                UpdateColorsFromXaml(trueControl, this.TrueColor, "true");
-                UpdateColorsFromXaml(falseControl, this.FalseColor, "false");
+                UpdateColorsFromXaml(trueControl, TrueColor, "true");
+                UpdateColorsFromXaml(falseControl, FalseColor, "false");
 
                 trueControl.Opacity = 0;
                 falseControl.Opacity = 0;
@@ -212,8 +202,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void FalseColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            BinaryDashboard instance = dependancy as BinaryDashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is BinaryDashboard instance && instance.DashboardLoaded)
             {
                 instance.OnPropertyChanged("FalseColor");
                 instance.Animate();
@@ -227,11 +216,10 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void IsTruePropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            BinaryDashboard instance = dependancy as BinaryDashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is BinaryDashboard instance && instance.DashboardLoaded)
             {
-                double value = instance.IsTrue ? instance.Maximum : instance.Minimum;
-                instance.SetValue(BinaryDashboard.ValueProperty, value);
+                var value = instance.IsTrue ? instance.Maximum : instance.Minimum;
+                instance.SetValue(ValueProperty, value);
                 instance.OnPropertyChanged("IsTrue");
             }
         }
@@ -243,8 +231,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void TrueColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            BinaryDashboard instance = dependancy as BinaryDashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is BinaryDashboard instance && instance.DashboardLoaded)
             {
                 instance.OnPropertyChanged("TrueColor");
                 instance.Animate();
@@ -265,8 +252,8 @@ namespace Codeplex.Dashboarding
                 return;
             }
 
-            GradientStop highStop = el.FindName(id + "HighColor") as GradientStop;
-            GradientStop lowStop = el.FindName(id + "LowColor") as GradientStop;
+            var highStop = el.FindName(id + "HighColor") as GradientStop;
+            var lowStop = el.FindName(id + "LowColor") as GradientStop;
             if (highStop != null && lowStop != null)
             {
                 highStop.Color = colorPoint.HiColor;
@@ -284,8 +271,8 @@ namespace Codeplex.Dashboarding
         {
             if (e.PropertyName == "Value")
             {
-                bool toBe = NormalizedValue >= 0.5;
-                if (this.IsTrue != toBe)
+                var toBe = NormalizedValue >= 0.5;
+                if (IsTrue != toBe)
                 {
                     SetValue(IsTrueProperty, toBe);
                 }

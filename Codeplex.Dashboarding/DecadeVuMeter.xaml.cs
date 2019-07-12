@@ -22,7 +22,6 @@ namespace Codeplex.Dashboarding
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
     using System.Windows.Shapes;
@@ -68,8 +67,8 @@ namespace Codeplex.Dashboarding
         public DecadeVuMeter()
         {
             InitializeComponent();
-            this.SetDefaultColours();
-            this.SetTimerDelay();
+            SetDefaultColours();
+            SetTimerDelay();
         }
 
         #region public properties
@@ -81,8 +80,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color BorderColor
         {
-            get { return (Color)GetValue(BorderColorProperty); }
-            set { SetValue(BorderColorProperty, value); }
+            get => (Color)GetValue(BorderColorProperty);
+            set => SetValue(BorderColorProperty, value);
         }
 
         /// <summary>
@@ -92,8 +91,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOnColor
         {
-            get { return (Color)GetValue(LedOnColorProperty); }
-            set { SetValue(LedOnColorProperty, value); }
+            get => (Color)GetValue(LedOnColorProperty);
+            set => SetValue(LedOnColorProperty, value);
         }
 
         /// <summary>
@@ -103,8 +102,8 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         public Color LedOffColor
         {
-            get { return (Color)GetValue(LedOffColorProperty); }
-            set { SetValue(LedOffColorProperty, value); }
+            get => (Color)GetValue(LedOffColorProperty);
+            set => SetValue(LedOffColorProperty, value);
         }
         #endregion
 
@@ -115,10 +114,7 @@ namespace Codeplex.Dashboarding
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion
 
@@ -151,12 +147,11 @@ namespace Codeplex.Dashboarding
         protected override void Animate()
         {
             _text.Text = Value.ToString();
-            for (int i = 0; i < NumberOfLeds; i++)
+            for (var i = 0; i < NumberOfLeds; i++)
             {
-                Storyboard sb = GetStoryboard("TimelineLed" + (NumberOfLeds - (i + 1))) as Storyboard;
-                if (sb != null)
+                if (GetStoryboard("TimelineLed" + (NumberOfLeds - (i + 1))) is Storyboard sb)
                 {
-                    double pos = ((i + 1) / (double)NumberOfLeds) * 100;
+                    var pos = ((i + 1) / (double)NumberOfLeds) * 100;
                     if ((NormalizedValue * 100) >= pos)
                     {
                         Start(sb);
@@ -200,7 +195,7 @@ namespace Codeplex.Dashboarding
         /// </summary>
         protected override void ManifestChanges()
         {
-            this.SetAllLedColors();
+            SetAllLedColors();
         }
 
         /// <summary>
@@ -221,7 +216,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ColorPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            DecadeVuMeter instance = dependancy as DecadeVuMeter;
+            var instance = dependancy as DecadeVuMeter;
             instance.LedColorChanged();
 
             if (instance != null && instance.DashboardLoaded)
@@ -235,22 +230,22 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void LedColorChanged()
         {
-            if (this.LedOnBrush == null || (this.LedOnBrush != null && this.LedOnBrush.Color != this.LedOnColor))
+            if (LedOnBrush == null || (LedOnBrush != null && LedOnBrush.Color != LedOnColor))
             {
-                this.LedOnBrush = new SolidColorBrush(this.LedOnColor);
-                Freeze(this.LedOnBrush);
+                LedOnBrush = new SolidColorBrush(LedOnColor);
+                Freeze(LedOnBrush);
             }
 
-            if (this.LedOffBrush == null || (this.LedOffBrush != null && this.LedOffBrush.Color != this.LedOffColor))
+            if (LedOffBrush == null || (LedOffBrush != null && LedOffBrush.Color != LedOffColor))
             {
-                this.LedOffBrush = new SolidColorBrush(this.LedOffColor);
-                Freeze(this.LedOffBrush);
+                LedOffBrush = new SolidColorBrush(LedOffColor);
+                Freeze(LedOffBrush);
             }
 
-            if (this.MeterBorderBrush == null || (this.MeterBorderBrush != null && this.MeterBorderBrush.Color != this.BorderColor))
+            if (MeterBorderBrush == null || (MeterBorderBrush != null && MeterBorderBrush.Color != BorderColor))
             {
-                this.MeterBorderBrush = new SolidColorBrush(this.BorderColor);
-                Freeze(this.MeterBorderBrush);
+                MeterBorderBrush = new SolidColorBrush(BorderColor);
+                Freeze(MeterBorderBrush);
             }
         }
 
@@ -259,9 +254,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void SetAllLedColors()
         {
-            for (int i = 0; i < NumberOfLeds; i++)
+            for (var i = 0; i < NumberOfLeds; i++)
             {
-                this.SetLedColours(i);
+                SetLedColours(i);
             }
         }
 
@@ -270,10 +265,10 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void SetDefaultColours()
         {
-            this.LedOffColor = Color.FromArgb(0xFF, 0x26, 0x41, 0x08);
-            this.LedOnColor = Color.FromArgb(0xFF, 0x96, 0xfb, 0x23);
-            this.BorderColor = Color.FromArgb(0xFF, 0x27, 0x53, 0x18);
-            _text.Foreground = new SolidColorBrush(this.LedOnColor);
+            LedOffColor = Color.FromArgb(0xFF, 0x26, 0x41, 0x08);
+            LedOnColor = Color.FromArgb(0xFF, 0x96, 0xfb, 0x23);
+            BorderColor = Color.FromArgb(0xFF, 0x27, 0x53, 0x18);
+            _text.Foreground = new SolidColorBrush(LedOnColor);
         }
 
         /// <summary>
@@ -282,21 +277,20 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void SetTimerDelay()
         {
-            for (int i = 0; i < NumberOfLeds; i++)
+            for (var i = 0; i < NumberOfLeds; i++)
             {
-                this.SetLedColours(i);
+                SetLedColours(i);
 
-                double time = ((double)NumberOfLeds - i) / (double)NumberOfLeds;
+                var time = ((double)NumberOfLeds - i) / (double)NumberOfLeds;
 
-                int endMs = (int)(100 * time);
-                int startMs = (int)(100 * (time - (1 / (double)NumberOfLeds)));
+                var endMs = (int)(100 * time);
+                var startMs = (int)(100 * (time - (1 / (double)NumberOfLeds)));
 
-                SplineColorKeyFrame start = LayoutRoot.FindName("_startColour" + i) as SplineColorKeyFrame;
-                SplineColorKeyFrame end = LayoutRoot.FindName("_endColour" + i) as SplineColorKeyFrame;
-                if (end != null && start != null)
+                var start = LayoutRoot.FindName("_startColour" + i) as SplineColorKeyFrame;
+                if (LayoutRoot.FindName("_endColour" + i) is SplineColorKeyFrame end && start != null)
                 {
-                    start.SetValue(SplineColorKeyFrame.KeyTimeProperty, KeyTime.FromTimeSpan(new TimeSpan(0, 0, 0, 0, startMs)));
-                    end.SetValue(SplineColorKeyFrame.KeyTimeProperty, KeyTime.FromTimeSpan(new TimeSpan(0, 0, 0, 0, endMs)));
+                    start.SetValue(ColorKeyFrame.KeyTimeProperty, KeyTime.FromTimeSpan(new TimeSpan(0, 0, 0, 0, startMs)));
+                    end.SetValue(ColorKeyFrame.KeyTimeProperty, KeyTime.FromTimeSpan(new TimeSpan(0, 0, 0, 0, endMs)));
                 }
             }
         }
@@ -307,23 +301,20 @@ namespace Codeplex.Dashboarding
         /// <param name="i">The index of he led to set the color for</param>
         private void SetLedColours(int i)
         {
-            SplineColorKeyFrame start = LayoutRoot.FindName("_startColour" + i) as SplineColorKeyFrame;
-            if (start != null)
+            if (LayoutRoot.FindName("_startColour" + i) is SplineColorKeyFrame start)
             {
-                start.Value = this.LedOffColor;
+                start.Value = LedOffColor;
             }
 
-            SplineColorKeyFrame end = LayoutRoot.FindName("_endColour" + i) as SplineColorKeyFrame;
-            if (end != null)
+            if (LayoutRoot.FindName("_endColour" + i) is SplineColorKeyFrame end)
             {
-                end.Value = this.LedOnColor;
+                end.Value = LedOnColor;
             }
 
-            Rectangle led = LayoutRoot.FindName("_led" + i) as Rectangle;
-            if (led != null)
+            if (LayoutRoot.FindName("_led" + i) is Rectangle led)
             {
-                led.Stroke = this.MeterBorderBrush;
-                led.Fill = this.LedOffBrush;
+                led.Stroke = MeterBorderBrush;
+                led.Fill = LedOffBrush;
             }
         }
         #endregion

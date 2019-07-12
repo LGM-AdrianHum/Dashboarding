@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
 
 namespace WpfGauge
@@ -75,8 +65,8 @@ namespace WpfGauge
         /// </summary>
         public Thickness LineMargin
         {
-            get { return (Thickness)base.GetValue(LineMarginProperty); }
-            set { base.SetValue(LineMarginProperty, value); }
+            get => (Thickness)GetValue(LineMarginProperty);
+            set => SetValue(LineMarginProperty, value);
         }
 
         /// <summary>
@@ -84,8 +74,8 @@ namespace WpfGauge
         /// </summary>
         public Thickness LabelMargin
         {
-            get { return (Thickness)base.GetValue(LabelMarginProperty); }
-            set { base.SetValue(LabelMarginProperty, value); }
+            get => (Thickness)GetValue(LabelMarginProperty);
+            set => SetValue(LabelMarginProperty, value);
         }
 
         /// <summary>
@@ -93,8 +83,8 @@ namespace WpfGauge
         /// </summary>
         public Style TickLabelStyle
         {
-            get { return (Style)base.GetValue(TickLabelStyleProperty); }
-            set { base.SetValue(TickLabelStyleProperty, value); }
+            get => (Style)GetValue(TickLabelStyleProperty);
+            set => SetValue(TickLabelStyleProperty, value);
         }
 
         /// <summary>
@@ -102,8 +92,8 @@ namespace WpfGauge
         /// </summary>
         public Brush TickMarkColor
         {
-            get { return (Brush)base.GetValue(TickMarkColorProperty); }
-            set { base.SetValue(TickMarkColorProperty, value); }
+            get => (Brush)GetValue(TickMarkColorProperty);
+            set => SetValue(TickMarkColorProperty, value);
         }
 
         /// <summary>
@@ -111,11 +101,11 @@ namespace WpfGauge
         /// </summary>
         public double LabelAngle
         {
-            get { return _labelAngle; }
+            get => _labelAngle;
             set
             {
                 _labelAngle = value;
-                this.OnPropertyChanged("LabelAngle");
+                OnPropertyChanged("LabelAngle");
             }
         }
 
@@ -124,11 +114,11 @@ namespace WpfGauge
         /// </summary>
         public string Label
         {
-            get { return _label; }
+            get => _label;
             set
             {
                 _label = value;
-                this.OnPropertyChanged("Label");
+                OnPropertyChanged("Label");
             }
         }
 
@@ -137,12 +127,12 @@ namespace WpfGauge
         /// </summary>
         public double Angle
         {
-            get { return _angle; }
+            get => _angle;
             set
             {
                 _angle = value;
-                this.OnPropertyChanged("Angle");
-                this.LabelAngle = value - 90;
+                OnPropertyChanged("Angle");
+                LabelAngle = value - 90;
             }
         }
 
@@ -151,11 +141,11 @@ namespace WpfGauge
         /// </summary>
         public double StrokeThickness
         {
-            get { return _strokeThickness; }
+            get => _strokeThickness;
             set
             {
                 _strokeThickness = value;
-                this.OnPropertyChanged("StrokeThickness");
+                OnPropertyChanged("StrokeThickness");
             }
         }
 
@@ -164,12 +154,12 @@ namespace WpfGauge
         /// </summary>
         public double LineHeight
         {
-            get { return _lineHeight; }
+            get => _lineHeight;
             set
             {
                 _lineHeight = value;
-                this.OnPropertyChanged("LineHeight");
-                this.LineMargin = new Thickness(55 - this.LineHeight, 0, 0, 0);
+                OnPropertyChanged("LineHeight");
+                LineMargin = new Thickness(55 - LineHeight, 0, 0, 0);
             }
         }
 
@@ -196,7 +186,7 @@ namespace WpfGauge
         /// <param name="propertyName"></param>
         protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            var handler = PropertyChanged;
 
             if (handler != null)
             {

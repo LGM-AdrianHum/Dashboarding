@@ -22,7 +22,6 @@ namespace Codeplex.Dashboarding
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using System.Windows.Media.Animation;
 
     /// <summary>
     /// A OdometerDigit represents a Single digit displayed in an Odometer
@@ -50,8 +49,8 @@ namespace Codeplex.Dashboarding
         {
             InitializeComponent();
             LayoutRoot.Clip = new RectangleGeometry { Rect = new Rect { X = 0, Y = 0, Width = 40, Height = 50 } };
-            AnimateIndicatorStoryboard.Completed += new EventHandler(this._swipe_Completed);
-            Loaded += new RoutedEventHandler(this.OdometerDigit_Loaded);
+            AnimateIndicatorStoryboard.Completed += new EventHandler(_swipe_Completed);
+            Loaded += new RoutedEventHandler(OdometerDigit_Loaded);
         }
 
         #endregion Constructors
@@ -88,20 +87,14 @@ namespace Codeplex.Dashboarding
         /// <summary>
         /// Gets the current value of the digit 0..9
         /// </summary>
-        public int Digit
-        {
-            get { return this.digit; }
-        }
+        public int Digit => digit;
 
         /// <summary>
         /// Gets the resource root. This allow us to access the Storyboards in a Silverlight/WPf
         /// neutral manner
         /// </summary>
         /// <value>The resource root.</value>
-        protected override FrameworkElement ResourceRoot
-        {
-            get { return LayoutRoot; }
-        }
+        protected override FrameworkElement ResourceRoot => LayoutRoot;
 
         #endregion Properties
 
@@ -115,15 +108,15 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public void Decrement()
         {
-            this.digit -= 1;
-            if (this.digit < 0)
+            digit -= 1;
+            if (digit < 0)
             {
-                this.digit = 9;
-                this.OnDecadeMinus();
+                digit = 9;
+                OnDecadeMinus();
             }
 
-            double from = (double)_image.GetValue(Canvas.TopProperty);
-            double to = from + 32;
+            var from = (double)_image.GetValue(Canvas.TopProperty);
+            var to = from + 32;
 
             GetChildDoubleAnimation(AnimateIndicatorStoryboard, "_anim").To = to;
             GetChildDoubleAnimation(AnimateIndicatorStoryboard, "_anim").From = from;
@@ -140,28 +133,28 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public void Increment()
         {
-            this.digit += 1;
-            if (this.digit > 9)
+            digit += 1;
+            if (digit > 9)
             {
-                this.digit = 0;
-                this.OnDecadePlus();
+                digit = 0;
+                OnDecadePlus();
             }
 
-            double from = (double)_image.GetValue(Canvas.TopProperty);
+            var from = (double)_image.GetValue(Canvas.TopProperty);
 
              // move to the lower 0 in the animation it has the roll over ability
-            if (this.digit == 0)
+            if (digit == 0)
             {
                 double offset = 23;
                 double amountToScroll = 9 * 32;
                 _image.SetValue(Canvas.TopProperty, -(offset + amountToScroll));
                 from = -(offset + amountToScroll);
 
-                Storyboard sb = GetStoryboard("_swipe");
+                var sb = GetStoryboard("_swipe");
                 Start(sb);
             }
 
-            double to = from - 32;
+            var to = from - 32;
             GetChildDoubleAnimation(AnimateIndicatorStoryboard, "_anim").To = to;
             GetChildDoubleAnimation(AnimateIndicatorStoryboard, "_anim").From = from;
 
@@ -177,7 +170,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "We need this to chain digits")]
         public void LowerOrderDigitDecadeMinus(object sender, EventArgs args)
         {
-            this.Decrement();
+            Decrement();
         }
 
         /// <summary>
@@ -189,7 +182,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Security", "CA2109:ReviewVisibleEventHandlers", Justification = "We need this to chain digits")]
         public void LowerOrderDigitDecadePlus(object sender, EventArgs args)
         {
-            this.Increment();
+            Increment();
         }
 
         /// <summary>
@@ -198,8 +191,8 @@ namespace Codeplex.Dashboarding
         /// <param name="value">The value of the digit</param>
         internal void SetInitialValue(int value)
         {
-            this.digit = value;
-            this.MoveToDigit();
+            digit = value;
+            MoveToDigit();
         }
 
         /// <summary>
@@ -215,7 +208,7 @@ namespace Codeplex.Dashboarding
         private void MoveToDigit()
         {
             double offset = 23;
-            double amountToScroll = this.digit * 32;
+            double amountToScroll = digit * 32;
             _image.SetValue(Canvas.TopProperty, -(offset + amountToScroll));
         }
 
@@ -226,8 +219,8 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void OdometerDigit_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ManifestChanges();
-            this.DashboardLoaded = true;
+            ManifestChanges();
+            DashboardLoaded = true;
         }
 
         /// <summary>
@@ -235,9 +228,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void OnDecadeMinus()
         {
-            if (this.DecadeMinus != null)
+            if (DecadeMinus != null)
             {
-                this.DecadeMinus(this, EventArgs.Empty);
+                DecadeMinus(this, EventArgs.Empty);
             }
         }
 
@@ -246,9 +239,9 @@ namespace Codeplex.Dashboarding
         /// </summary>
         private void OnDecadePlus()
         {
-            if (this.DecadePlus != null)
+            if (DecadePlus != null)
             {
-                this.DecadePlus(this, EventArgs.Empty);
+                DecadePlus(this, EventArgs.Empty);
             }
         }
 
@@ -259,7 +252,7 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void _swipe_Completed(object sender, EventArgs e)
         {
-            this.MoveToDigit();
+            MoveToDigit();
         }
 
         #endregion Methods

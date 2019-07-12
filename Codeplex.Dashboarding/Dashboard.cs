@@ -104,7 +104,7 @@ namespace Codeplex.Dashboarding
         protected Dashboard()
             : base()
         {
-            Loaded += new RoutedEventHandler(this.Dashboard_Loaded);
+            Loaded += new RoutedEventHandler(Dashboard_Loaded);
             PropertyChanged += Dashboard_PropertyChanged;
         }
 
@@ -130,28 +130,25 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1721:PropertyNamesShouldNotMatchGetMethods", Justification = "Value is to engrained to change and really Microsoft should be shot for calling the dependancy property set method SetVale and GetValue since Value is a very common property name")]
         public double Value
         {
-            get
-            {
-                return (double)GetValue(ValueProperty);
-            }
+            get => (double)GetValue(ValueProperty);
 
             set
             {
-                double old = this.Value;
+                var old = Value;
 
-                if (value > this.RealMaximum)
+                if (value > RealMaximum)
                 {
-                    value = this.RealMaximum;
+                    value = RealMaximum;
                 }
 
-                if (value < this.RealMinimum)
+                if (value < RealMinimum)
                 {
-                    value = this.RealMinimum;
+                    value = RealMinimum;
                 }
 
                 SetValue(ValueProperty, value);
-                this.OnValueChanged(old, value);
-                this.OnPropertyChanged("FormattedValue");
+                OnValueChanged(old, value);
+                OnPropertyChanged("FormattedValue");
             }
         }
 
@@ -162,8 +159,8 @@ namespace Codeplex.Dashboarding
         /// <value>The duration of the animation.</value>
         public TimeSpan AnimationDuration
         {
-            get { return (TimeSpan)GetValue(AnimationDurationProperty); }
-            set { SetValue(AnimationDurationProperty, value); }
+            get => (TimeSpan)GetValue(AnimationDurationProperty);
+            set => SetValue(AnimationDurationProperty, value);
         }
 
         /// <summary>
@@ -171,8 +168,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public double Minimum
         {
-            get { return (double)GetValue(MinimumProperty); }
-            set { SetValue(MinimumProperty, value); }
+            get => (double)GetValue(MinimumProperty);
+            set => SetValue(MinimumProperty, value);
         }
 
         /// <summary>
@@ -180,8 +177,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public double Maximum
         {
-            get { return (double)GetValue(MaximumProperty); }
-            set { SetValue(MaximumProperty, value); }
+            get => (double)GetValue(MaximumProperty);
+            set => SetValue(MaximumProperty, value);
         }
 
         /// <summary>
@@ -193,14 +190,11 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                Color res = (Color)GetValue(ValueTextColorProperty);
+                var res = (Color)GetValue(ValueTextColorProperty);
                 return res;
             }
 
-            set
-            {
-                SetValue(ValueTextColorProperty, value);
-            }
+            set => SetValue(ValueTextColorProperty, value);
         }
 
         /// <summary>
@@ -208,8 +202,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public Visibility ValueTextVisibility
         {
-            get { return (Visibility)GetValue(ValueTextVisibilityProperty); }
-            set { SetValue(ValueTextVisibilityProperty, value); }
+            get => (Visibility)GetValue(ValueTextVisibilityProperty);
+            set => SetValue(ValueTextVisibilityProperty, value);
         }
 
         /// <summary>
@@ -231,8 +225,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public string ValueTextFormat
         {
-            get { return (string)GetValue(ValueTextFormatProperty); }
-            set { SetValue(ValueTextFormatProperty, value); }
+            get => (string)GetValue(ValueTextFormatProperty);
+            set => SetValue(ValueTextFormatProperty, value);
         }
 
         /// <summary>
@@ -244,14 +238,11 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                Color res = (Color)GetValue(FaceTextColorProperty);
+                var res = (Color)GetValue(FaceTextColorProperty);
                 return res;
             }
 
-            set
-            {
-                SetValue(FaceTextColorProperty, value);
-            }
+            set => SetValue(FaceTextColorProperty, value);
         }
 
         /// <summary>
@@ -259,8 +250,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public Visibility FaceTextVisibility
         {
-            get { return (Visibility)GetValue(FaceTextVisibilityProperty); }
-            set { SetValue(FaceTextVisibilityProperty, value); }
+            get => (Visibility)GetValue(FaceTextVisibilityProperty);
+            set => SetValue(FaceTextVisibilityProperty, value);
         }
 
         /// <summary>
@@ -282,8 +273,8 @@ namespace Codeplex.Dashboarding
         /// </summary>
         public string FaceTextFormat
         {
-            get { return (string)GetValue(FaceTextFormatProperty); }
-            set { SetValue(FaceTextFormatProperty, value); }
+            get => (string)GetValue(FaceTextFormatProperty);
+            set => SetValue(FaceTextFormatProperty, value);
         }
 
         /// <summary>
@@ -299,7 +290,7 @@ namespace Codeplex.Dashboarding
             {
                 try
                 {
-                    return String.Format(this.ValueTextFormat ?? "{0:000}", this.Value);
+                    return string.Format(ValueTextFormat ?? "{0:000}", Value);
                 }
                 catch (FormatException)
                 {
@@ -315,21 +306,15 @@ namespace Codeplex.Dashboarding
         /// Gets the RealMinimum value. Since the user may set Minimum &gt; Maximum, we internally use RealMinimum
         /// and RealMaximum which allways return Maximum &gt;= Minimum even if they have to swap
         /// </summary>
-        internal double RealMaximum
-        {
-            get { return (this.Maximum > this.Minimum) ? this.Maximum : this.Minimum; }
-        }
+        internal double RealMaximum => (Maximum > Minimum) ? Maximum : Minimum;
 
-        /// <summary>
+               /// <summary>
         /// Gets the RealMaximum valueSince the user may set Minimum &gt; Maximum, we internally use RealMinimum
         /// and RealMaximum which always return Maximum &gt;= Minimum even if they have to swap
         /// </summary>
-        internal double RealMinimum
-        {
-            get { return (this.Maximum < this.Minimum) ? this.Maximum : this.Minimum; }
-        }
+        internal double RealMinimum => (Maximum < Minimum) ? Maximum : Minimum;
 
-        /// <summary>
+               /// <summary>
         /// Gets the NormalizedValue. Regardless of the Minimum or Maximum settings, the actual value to display on the gauge
         /// is represented by the Normalized value which always is in the range 0 &gt;= n &lt;= 1.0. This makes
         /// the job of animating more easy.
@@ -338,8 +323,8 @@ namespace Codeplex.Dashboarding
         {
             get
             {
-                double range = this.RealMaximum - this.RealMinimum;
-                return (this.Value - this.RealMinimum) / range;
+                var range = RealMaximum - RealMinimum;
+                return (Value - RealMinimum) / range;
             }
         }
 
@@ -399,9 +384,9 @@ namespace Codeplex.Dashboarding
         /// <param name="propName">Name of the property</param>
         protected virtual void OnPropertyChanged(string propName)
         {
-            if (this.PropertyChanged != null && this.DashboardLoaded)
+            if (PropertyChanged != null && DashboardLoaded)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
 
@@ -413,11 +398,11 @@ namespace Codeplex.Dashboarding
         {
             if (tb != null)
             {
-                tb.FontFamily = this.FontFamily;
-                tb.FontSize = this.FontSize;
-                tb.FontStretch = this.FontStretch;
-                tb.FontStyle = this.FontStyle;
-                tb.FontWeight = this.FontWeight;
+                tb.FontFamily = FontFamily;
+                tb.FontSize = FontSize;
+                tb.FontStretch = FontStretch;
+                tb.FontStyle = FontStyle;
+                tb.FontWeight = FontWeight;
             }
         }
 
@@ -431,10 +416,9 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ValuePropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
-                double v = instance.Value;
+                var v = instance.Value;
                 if (v > instance.RealMaximum)
                 {
                     instance.Value = instance.RealMaximum;
@@ -458,8 +442,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void AnimationDurationChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-             Dashboard instance = dependancy as Dashboard;
-             if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
              {
              }
         }
@@ -476,8 +459,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void MinimumPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                 instance.UpdateTextFormat();
                 ValuePropertyChanged(dependancy, args);
@@ -493,8 +475,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void MaximumPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                 instance.UpdateTextFormat();
                 ValuePropertyChanged(dependancy, args);
@@ -513,8 +494,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ValueTextVisibilityPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                 instance.UpdateTextVisibility();
                 instance.OnPropertyChanged("ValueTextVisibility");
@@ -529,8 +509,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void ValueTextColorChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                 instance.UpdateTextColor();
                 instance.OnPropertyChanged("ValueTextColor");
@@ -544,8 +523,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void ValueTextFormatPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                  instance.UpdateTextFormat();
                 instance.OnPropertyChanged("ValueTextFormat");
@@ -559,8 +537,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void FaceTextVisibilityPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                 instance.UpdateTextVisibility();
                 instance.OnPropertyChanged("FaceTextVisibility");
@@ -575,8 +552,7 @@ namespace Codeplex.Dashboarding
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Color", Justification = "We support U.S. naming in a British project")]
         private static void FaceTextColorChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                 instance.UpdateTextColor();
                 instance.OnPropertyChanged("FaceTextColor");
@@ -590,8 +566,7 @@ namespace Codeplex.Dashboarding
         /// <param name="args">The <see cref="System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         private static void FaceTextFormatPropertyChanged(DependencyObject dependancy, DependencyPropertyChangedEventArgs args)
         {
-            Dashboard instance = dependancy as Dashboard;
-            if (instance != null && instance.DashboardLoaded)
+            if (dependancy is Dashboard instance && instance.DashboardLoaded)
             {
                 instance.UpdateTextFormat();
                 instance.OnPropertyChanged("FaceTextFormat");
@@ -619,9 +594,9 @@ namespace Codeplex.Dashboarding
         /// <param name="value">The new value</param>
         private void OnValueChanged(double old, double value)
         {
-            if (this.ValueChanged != null && this.DashboardLoaded)
+            if (ValueChanged != null && DashboardLoaded)
             {
-                this.ValueChanged(this, new DashboardValueChangedEventArgs { OldValue = old, NewValue = value });
+                ValueChanged(this, new DashboardValueChangedEventArgs { OldValue = old, NewValue = value });
             }
         }
 
@@ -633,10 +608,10 @@ namespace Codeplex.Dashboarding
         /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
         private void Dashboard_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ManifestChanges();
-            this.DashboardLoaded = true;
+            ManifestChanges();
+            DashboardLoaded = true;
 
-            this.Animate();
+            Animate();
         }
         #endregion
     }

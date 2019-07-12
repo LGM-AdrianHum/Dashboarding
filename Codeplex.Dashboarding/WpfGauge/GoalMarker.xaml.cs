@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.ComponentModel;
 
 namespace WpfGauge
 {
@@ -100,8 +89,8 @@ namespace WpfGauge
         /// </summary>
         public double Value
         {
-            get { return (double)base.GetValue(ValueProperty); }
-            set { base.SetValue(ValueProperty, value); }
+            get => (double)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
         /// <summary>
@@ -109,8 +98,8 @@ namespace WpfGauge
         /// </summary>
         public double Angle
         {
-            get { return (double)base.GetValue(AngleProperty); }
-            set { base.SetValue(AngleProperty, value); }
+            get => (double)GetValue(AngleProperty);
+            set => SetValue(AngleProperty, value);
         }
 
         /// <summary>
@@ -118,8 +107,8 @@ namespace WpfGauge
         /// </summary>
         public double GaugeMax
         {
-            get { return (double)base.GetValue(GaugeMaxProperty); }
-            set { base.SetValue(GaugeMaxProperty, value); }
+            get => (double)GetValue(GaugeMaxProperty);
+            set => SetValue(GaugeMaxProperty, value);
         }
 
         /// <summary>
@@ -127,8 +116,8 @@ namespace WpfGauge
         /// </summary>
         public double GaugeStartAngle
         {
-            get { return (double)base.GetValue(GaugeStartAngleProperty); }
-            set { base.SetValue(GaugeStartAngleProperty, value); }
+            get => (double)GetValue(GaugeStartAngleProperty);
+            set => SetValue(GaugeStartAngleProperty, value);
         }
 
         /// <summary>
@@ -136,8 +125,8 @@ namespace WpfGauge
         /// </summary>
         public double GaugeEndAngle
         {
-            get { return (double)base.GetValue(GaugeEndAngleProperty); }
-            set { base.SetValue(GaugeEndAngleProperty, value); }
+            get => (double)GetValue(GaugeEndAngleProperty);
+            set => SetValue(GaugeEndAngleProperty, value);
         }
 
         /// <summary>
@@ -145,8 +134,8 @@ namespace WpfGauge
         /// </summary>
         public double MarkerWidth
         {
-            get { return (double)base.GetValue(MarkerWidthProperty); }
-            set { base.SetValue(MarkerWidthProperty, value); }
+            get => (double)GetValue(MarkerWidthProperty);
+            set => SetValue(MarkerWidthProperty, value);
         }
 
         /// <summary>
@@ -154,8 +143,8 @@ namespace WpfGauge
         /// </summary>
         public double MarkerHeight
         {
-            get { return (double)base.GetValue(MarkerHeightProperty); }
-            set { base.SetValue(MarkerHeightProperty, value); }
+            get => (double)GetValue(MarkerHeightProperty);
+            set => SetValue(MarkerHeightProperty, value);
         }
 
         /// <summary>
@@ -163,8 +152,8 @@ namespace WpfGauge
         /// </summary>
         public Brush MarkerColor
         {
-            get { return (Brush)base.GetValue(MarkerColorProperty); }
-            set { base.SetValue(MarkerColorProperty, value); }
+            get => (Brush)GetValue(MarkerColorProperty);
+            set => SetValue(MarkerColorProperty, value);
         }
 
         /// <summary>
@@ -172,8 +161,8 @@ namespace WpfGauge
         /// </summary>
         public string Title
         {
-            get { return (string)base.GetValue(TitleProperty); }
-            set { base.SetValue(TitleProperty, value); }
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
         #endregion Public Vars
